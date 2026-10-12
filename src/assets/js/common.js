@@ -164,6 +164,17 @@ function initSearch() {
   });
 }
 
+// ---------- offline support (PWA) ----------
+function initServiceWorker() {
+  if (!("serviceWorker" in navigator) || !window.isSecureContext) return;
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (hadController) toast("มีเวอร์ชันใหม่ รีเฟรชหน้าเพื่อใช้งาน");
+  });
+  addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+}
+
 initTheme();
 initButtons();
 initSearch();
+initServiceWorker();

@@ -11,3 +11,7 @@
 #mbFields td, #mbFields th, #mbBuildTbl td, #mbBuildTbl th, #mbRegs td, #mbPairs td { word-break: normal; white-space: nowrap; }
 #mbFields td:nth-child(3), #mbBuildTbl td:nth-child(2) { white-space: normal; min-width: 8ch; max-width: 40ch; }
 #mbFields td:last-child, #mbBuildTbl td:last-child { white-space: normal; width: 100%; }
+.mb-ser-term { margin: 10px 0 8px; box-shadow: none; }
+.mb-ser-term .terminal { height: 220px; min-height: 160px; contain: strict; }
+.mb-ser-term .terminal:empty::before { content: "TX / RX จะแสดงที่นี่"; }
+#mbSerTimeout, #mbSerInterval { width: 90px; }

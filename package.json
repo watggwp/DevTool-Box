@@ -1,16 +1,17 @@
 {
   "name": "devtools-box",
-  "version": "1.2.0",
-  "description": "Online developer toolbox: Web Serial monitor, Base64/URL/Hex codecs, JSON, JWT, hashes, timestamp, number base converter",
+  "version": "1.4.0",
+  "description": "Online developer toolbox: Web Serial monitor, plotter, ESP firmware flasher, Modbus RTU, codecs, hashes and more",
   "type": "module",
   "private": true,
   "scripts": {
     "build": "node build.mjs",
     "start": "node server.js",
-    "dev": "node build.mjs && node server.js"
+    "dev": "node build.mjs && node server.js",
+    "test": "node --test test/*.test.mjs"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "license": "MIT"
 }

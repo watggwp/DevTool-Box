@@ -20,3 +20,9 @@ services:
       - path: /assets/*
         name: Cache-Control
         value: public, max-age=3600
+      - path: /sw.js
+        name: Cache-Control
+        value: no-cache
+      - path: /manifest.webmanifest
+        name: Cache-Control
+        value: no-cache

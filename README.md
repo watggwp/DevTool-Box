@@ -29,10 +29,11 @@
 
 ## รันในเครื่อง
 
-ไม่มี dependency ต้องติดตั้ง ใช้แค่ Node.js 18 ขึ้นไป
+ไม่มี dependency ต้องติดตั้ง ใช้แค่ Node.js 20 ขึ้นไป
 
 ```bash
 npm run dev      # build -> dist/ แล้วเปิด server ที่ http://localhost:3000
+npm test         # build แล้วรันชุดทดสอบทั้งหมด (node:test ไม่มี dependency)
 ```
 
 ## โครงสร้าง
@@ -71,6 +72,22 @@ server.js          static server ขนาดเล็ก ใช้แค่ Nod
    - Publish directory: `dist`
 
 ถ้าต้องการรันเป็น Web Service แทน ใช้ build `npm run build` และ start `npm start` (server ใช้ RAM ราว 40-50 MB)
+
+## ใช้งานออฟไลน์ (PWA)
+
+- เปิดเว็บหนึ่งครั้งขณะออนไลน์ เบราว์เซอร์จะเก็บทุกหน้าไว้ในเครื่อง หลังจากนั้นเปิดได้แม้ไม่มีอินเทอร์เน็ต
+- ติดตั้งเป็นแอปได้จากไอคอนติดตั้งในแถบที่อยู่ของ Chrome / Edge มีทางลัดไป Serial Monitor, Flasher, Modbus และ Plotter
+- `build.mjs` สร้าง `dist/sw.js` ใหม่ทุกครั้ง โดยตั้งชื่อ cache จาก hash ของทุกไฟล์ deploy ใหม่จึงล้าง cache เก่าเอง ผู้ใช้จะเห็นข้อความให้รีเฟรชเมื่อมีเวอร์ชันใหม่
+
+## การทดสอบอัตโนมัติ (CI)
+
+- ชุดทดสอบอยู่ใน `test/` ครอบคลุม codec, hash, Modbus, float, struct, QR (เทียบกับไลบรารีอ้างอิงใน `test/fixtures/`), resistor, diff, cron, ความครบถ้วนของทุกหน้าและลิงก์, PWA และ static server
+- GitHub Actions (`.github/workflows/ci.yml`) รันทุกครั้งที่ push ไป `main` และทุก pull request บน Node 20 และ 22
+- **ให้ Render deploy เฉพาะเมื่อทดสอบผ่าน**: ใน Render เปิด static site แล้วไปที่ Settings > Build & Deploy > Auto-Deploy เลือก **After CI Checks Pass**
+
+## Modbus ผ่าน Serial / RS485
+
+หน้า `/modbus/` ส่งคำสั่งที่ประกอบไว้ไปยังอุปกรณ์จริงได้ผ่าน USB-RS485 แบบ auto direction รองรับการส่งครั้งเดียวและ polling ตามช่วงเวลา รอคำตอบตามความยาวที่คาดไว้หรือจนเงียบเกิน 3.5 ตัวอักษร ตรวจ CRC และถอดผลตอบกลับให้อัตโนมัติ
 
 ## Firmware Flasher
 

@@ -1,0 +1,325 @@
+{
+ "generator": "qrcode@1.5.4",
+ "cases": [
+  {
+   "text": "hello world",
+   "ecl": "L",
+   "mask": 7,
+   "version": 1,
+   "size": 21,
+   "sha256": "dbf0f61cb47466e8c1c28cf7465d1de46a282935a805415b8e931e3a3247d0ba"
+  },
+  {
+   "text": "hello world",
+   "ecl": "M",
+   "mask": 0,
+   "version": 1,
+   "size": 21,
+   "sha256": "ff11d03a5d4c7271b10c332b4fa40be7ba354863ec7af342b03e7358f250d276"
+  },
+  {
+   "text": "hello world",
+   "ecl": "Q",
+   "mask": 4,
+   "version": 1,
+   "size": 21,
+   "sha256": "f58958f7b602c63ed5b1e9d173232dce97280196cd7847c7cbfe5132cf2212a2"
+  },
+  {
+   "text": "hello world",
+   "ecl": "H",
+   "mask": 3,
+   "version": 2,
+   "size": 25,
+   "sha256": "0f33b9a94d3f9dec0246180d369f27f7f7b8b9b6a3609d8989728aa6931671c2"
+  },
+  {
+   "text": "https://www.syntechnology.com/en/about/",
+   "ecl": "L",
+   "mask": 3,
+   "version": 3,
+   "size": 29,
+   "sha256": "f3ed17d3744dd60c5e62734b33f606be958921499f67f03b95487663e48d8dc2"
+  },
+  {
+   "text": "https://www.syntechnology.com/en/about/",
+   "ecl": "M",
+   "mask": 4,
+   "version": 3,
+   "size": 29,
+   "sha256": "2b04c9df80b5e1368b44d297924be315c71e2109cfdf0726cfaf1fe5a0932976"
+  },
+  {
+   "text": "https://www.syntechnology.com/en/about/",
+   "ecl": "Q",
+   "mask": 0,
+   "version": 4,
+   "size": 33,
+   "sha256": "29ab098f26dade04125342984734e628cd0e383850aa4a0025b9796ace761a85"
+  },
+  {
+   "text": "https://www.syntechnology.com/en/about/",
+   "ecl": "H",
+   "mask": 7,
+   "version": 5,
+   "size": 37,
+   "sha256": "b0a8d6cfb85db644eba0e90814e6b0ec559badf6820ec189facfbc751d44872a"
+  },
+  {
+   "text": "WIFI:T:WPA;S:My Net;P:p@ss\\;word;H:false;;",
+   "ecl": "L",
+   "mask": 6,
+   "version": 3,
+   "size": 29,
+   "sha256": "7565b04c4125fcbed37b2a63ae35bc66def9a34a01b4398cdc6816132d3784ed"
+  },
+  {
+   "text": "WIFI:T:WPA;S:My Net;P:p@ss\\;word;H:false;;",
+   "ecl": "M",
+   "mask": 7,
+   "version": 3,
+   "size": 29,
+   "sha256": "fd9be5ebe8f99bdd8161418e71702131ca20b9897a1db729240b30cd249b3cea"
+  },
+  {
+   "text": "WIFI:T:WPA;S:My Net;P:p@ss\\;word;H:false;;",
+   "ecl": "Q",
+   "mask": 3,
+   "version": 4,
+   "size": 33,
+   "sha256": "992007a1321cce287b3434529c993b0bdc920d6d497a490a549e13e30ef4affb"
+  },
+  {
+   "text": "WIFI:T:WPA;S:My Net;P:p@ss\\;word;H:false;;",
+   "ecl": "H",
+   "mask": 2,
+   "version": 5,
+   "size": 37,
+   "sha256": "1eec376376279947bb0cba25d37e119a44f63bf6b2d637721c317ecafffc9a9f"
+  },
+  {
+   "text": "สวัสดีครับ 🙂",
+   "ecl": "L",
+   "mask": 1,
+   "version": 3,
+   "size": 29,
+   "sha256": "e1ee2571dec7fd93659aa49e3e2a7cafa8c47e0421c145586680856a23868ed2"
+  },
+  {
+   "text": "สวัสดีครับ 🙂",
+   "ecl": "M",
+   "mask": 2,
+   "version": 3,
+   "size": 29,
+   "sha256": "2322c6e300dd3b1b1c87a64f5d9c8284bfb9887baec68ddfa9bf1a8593800ecc"
+  },
+  {
+   "text": "สวัสดีครับ 🙂",
+   "ecl": "Q",
+   "mask": 6,
+   "version": 4,
+   "size": 33,
+   "sha256": "abea36acc88b07da26da3f6ae34206bba3786a41e38b7edfc5bff50be6cdef5d"
+  },
+  {
+   "text": "สวัสดีครับ 🙂",
+   "ecl": "H",
+   "mask": 5,
+   "version": 5,
+   "size": 37,
+   "sha256": "bf8e19698466d55c3f8103773a24a7e677b8abe09e136adf4aec51c8856a9fc6"
+  },
+  {
+   "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. ",
+   "ecl": "L",
+   "mask": 4,
+   "version": 12,
+   "size": 65,
+   "sha256": "654ce55c7cef766d4079cadf349f9d394fb17eac43e11072f3f40382ea6794a5"
+  },
+  {
+   "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. ",
+   "ecl": "M",
+   "mask": 5,
+   "version": 14,
+   "size": 73,
+   "sha256": "e41d69d305ce08f2ad27a16d89e6ae462b9f36ef10775e9d4273a168b13b428f"
+  },
+  {
+   "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. ",
+   "ecl": "Q",
+   "mask": 1,
+   "version": 17,
+   "size": 85,
+   "sha256": "53cb03fbfc511845d5bac4eb30f5fa363cf21ccecdd1a619037ee650ddc98834"
+  },
+  {
+   "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. ",
+   "ecl": "H",
+   "mask": 0,
+   "version": 20,
+   "size": 97,
+   "sha256": "96086b9b3e28697b0a9c875159203f6b49ae258d8d1eb60c1eaa7569c4049c20"
+  },
+  {
+   "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "ecl": "L",
+   "mask": 4,
+   "version": 17,
+   "size": 85,
+   "sha256": "d4d0e56b65dc99207bbed4f7c7aa0103150925c4001afebd1c6e22e0f0d82059"
+  },
+  {
+   "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "ecl": "M",
+   "mask": 5,
+   "version": 19,
+   "size": 93,
+   "sha256": "415f7400298078cd4ce77ee400a8e90fd095b43cacdb2c53da5433d1ecb264bf"
+  },
+  {
+   "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "ecl": "Q",
+   "mask": 1,
+   "version": 23,
+   "size": 109,
+   "sha256": "f5e205750248dffbb4c35f11854473a07742d0aa07d5e96c5d2e03235dc65012"
+  },
+  {
+   "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+   "ecl": "H",
+   "mask": 0,
+   "version": 27,
+   "size": 125,
+   "sha256": "cefabb7846432d90556573d7deb07410fe53dbad8025dda7d69b321fa46ae730"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 0,
+   "version": 2,
+   "size": 25,
+   "sha256": "69b607cdd3652990ee14ed7ed09450a9eaff1e49bc5077e59c0b5d7fc832075d"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 1,
+   "version": 2,
+   "size": 25,
+   "sha256": "d767d3e0bcf2a1d21aa0e5c2d335906088351173843509760a0151f5f028891a"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 2,
+   "version": 2,
+   "size": 25,
+   "sha256": "c27b0b6bbed5f9a47471b3662ec310183d7940ed6d62012f3622b136f3c2c904"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 3,
+   "version": 2,
+   "size": 25,
+   "sha256": "ce657fed9815fe38754f401ccd90a3c4cdfebf8c7ea596a80dd2adbbb57c1064"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 4,
+   "version": 2,
+   "size": 25,
+   "sha256": "6415ec32b75949cfdad60c6f88277174507502250abfabe43f160a81714fa46e"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 5,
+   "version": 2,
+   "size": 25,
+   "sha256": "dc6d6bee7e83ed7faad532659455af8826c1e97b534e8fc37244670811c2d4a9"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 6,
+   "version": 2,
+   "size": 25,
+   "sha256": "7911d08634fcb81172c8ab5851d2f27236298711931b423d9428bb26723e801f"
+  },
+  {
+   "text": "mask test 12345",
+   "ecl": "Q",
+   "mask": 7,
+   "version": 2,
+   "size": 25,
+   "sha256": "863cc598bcb1774d37018c89ff1c5ff2977c1d5c2b85fbc92a526f7449867c30"
+  },
+  {
+   "text": "A",
+   "ecl": "M",
+   "mask": 2,
+   "version": 1,
+   "size": 21,
+   "sha256": "e7897faf8824acb36d155c54ee5e25e3d110ee7ca1fc20a6e3deeb11a69e474d"
+  },
+  {
+   "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "ecl": "M",
+   "mask": 2,
+   "version": 3,
+   "size": 29,
+   "sha256": "6086577d614609d4a1856eb4a608e1eda94fc82c25715fe5c199a9ed4dc7495d"
+  },
+  {
+   "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "ecl": "M",
+   "mask": 2,
+   "version": 6,
+   "size": 41,
+   "sha256": "3ab1faec1f51c09e7f5bf0e43a1702e4777ef29d3f95b18756440132411427e1"
+  },
+  {
+   "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "ecl": "M",
+   "mask": 2,
+   "version": 13,
+   "size": 69,
+   "sha256": "6373e9652bf5d419ccabb0237bff5e6b9c971800424d0c208e9ebd19336c1b8a"
+  },
+  {
+   "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "ecl": "M",
+   "mask": 2,
+   "version": 21,
+   "size": 101,
+   "sha256": "cb485d102207dd8f683b2dec8e0039421db1b7850d621a294bd4242a8400d629"
+  },
+  {
+   "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "ecl": "M",
+   "mask": 2,
+   "version": 29,
+   "size": 133,
+   "sha256": "0be1fe1c4264b235f9f5b4f1f001357b449dfaa474ccda1c3f5fadeed2c12faa"
+  },
+  {
+   "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "ecl": "M",
+   "mask": 2,
+   "version": 35,
+   "size": 157,
+   "sha256": "b05103fd2a6e8c98abc91af3a8ba8bd3b9d35aa3bfd68fc858cbdbbfe7cb4609"
+  },
+  {
+   "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "ecl": "M",
+   "mask": 2,
+   "version": 40,
+   "size": 177,
+   "sha256": "109e7a9093dab98737df9d073eaa874a0242040a533e81ec00529a9164c880fa"
+  }
+ ]
+}

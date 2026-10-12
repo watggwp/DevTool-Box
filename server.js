@@ -17,6 +17,7 @@ const TYPES = {
   ".png": "image/png",
   ".ico": "image/x-icon",
   ".txt": "text/plain; charset=utf-8",
+  ".webmanifest": "application/manifest+json; charset=utf-8",
 };
 
 const HEADERS = {
@@ -48,7 +49,7 @@ function send(req, res, status, file, stat) {
   const headers = {
     ...HEADERS,
     "Content-Type": TYPES[ext] || "application/octet-stream",
-    "Cache-Control": ext === ".html" ? "no-cache" : "public, max-age=3600",
+    "Cache-Control": ext === ".html" || /\/(sw\.js|manifest\.webmanifest)$/.test(file.split(path.sep).join("/")) ? "no-cache" : "public, max-age=3600",
     ETag: etag,
   };
   if (status === 200 && req.headers["if-none-match"] === etag) {

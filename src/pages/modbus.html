@@ -1,6 +1,6 @@
       <section class="tool">
         <h1>Modbus RTU <small>Frame builder / decoder</small></h1>
-        <p class="hint">ประกอบคำสั่ง Modbus RTU พร้อม CRC16 อัตโนมัติ และถอด frame ที่ได้จากอุปกรณ์ เอา frame ไปส่งได้ที่หน้า Serial Monitor โดยติ๊ก "HEX"</p>
+        <p class="hint">ประกอบคำสั่ง Modbus RTU พร้อม CRC16 อัตโนมัติ และถอด frame ที่ได้จากอุปกรณ์ และส่งคำสั่งไปยังอุปกรณ์จริงผ่าน USB-RS485 / Serial ได้โดยตรงจากหน้านี้ (Chrome / Edge)</p>
 
         <div class="card">
           <h2>สร้างคำสั่ง (Request)</h2>
@@ -35,6 +35,46 @@
           </div>
           <table class="tbl" id="mbBuildTbl"></table>
           <div class="notice err" id="mbBuildErr" hidden></div>
+        </div>
+
+        <div class="card" id="mbSerialCard">
+          <div class="row between wrap">
+            <h2>ส่งผ่าน Serial / RS485</h2>
+            <span class="status" id="mbSerStatus">ยังไม่ได้เชื่อมต่อ</span>
+          </div>
+          <div class="notice warn" id="mbSerUnsupported" hidden>เบราว์เซอร์นี้ไม่รองรับ Web Serial ใช้ Chrome หรือ Edge บนคอมพิวเตอร์</div>
+          <div class="row wrap gap">
+            <label>Baud
+              <select id="mbSerBaud">
+                <option>1200</option><option>2400</option><option>4800</option><option selected>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option>
+              </select>
+            </label>
+            <label>Parity <select id="mbSerParity"><option value="none">None (8N1)</option><option value="even">Even (8E1)</option><option value="odd">Odd (8O1)</option></select></label>
+            <label>Stop bits <select id="mbSerStop"><option>1</option><option>2</option></select></label>
+            <label>Timeout (ms) <input id="mbSerTimeout" type="number" min="50" max="10000" value="1000"></label>
+            <span class="spacer"></span>
+            <button class="btn primary" id="mbSerConnect" type="button">เชื่อมต่อ</button>
+            <button class="btn danger" id="mbSerDisconnect" type="button" disabled>ตัดการเชื่อมต่อ</button>
+          </div>
+          <div class="row wrap gap">
+            <button class="btn primary" id="mbSerSend" type="button" disabled>ส่งคำสั่งด้านบน</button>
+            <label>ส่งซ้ำทุก <input id="mbSerInterval" type="number" min="100" max="60000" value="1000"> ms</label>
+            <button class="btn" id="mbSerPoll" type="button" disabled>เริ่ม polling</button>
+            <label class="chk"><input type="checkbox" id="mbSerAutoDecode" checked> ถอดผลตอบกลับอัตโนมัติ</label>
+            <span class="spacer"></span>
+            <span class="muted mono" id="mbSerStats">TX 0 / OK 0 / timeout 0 / CRC ผิด 0</span>
+          </div>
+          <div class="card term-wrap mb-ser-term">
+            <div class="term-head">
+              <span class="dots"><i></i><i></i><i></i></span>
+              <span>modbus log</span>
+              <span class="spacer"></span>
+              <span id="mbSerRtt"></span>
+              <button class="btn ghost sm" id="mbSerClear" type="button">ล้าง</button>
+            </div>
+            <pre class="terminal" id="mbSerLog" tabindex="0" aria-label="Modbus serial log"></pre>
+          </div>
+          <p class="muted">ต่อผ่านตัวแปลง USB-RS485 ที่สลับทิศทางรับ/ส่งเอง (auto direction) ซึ่งเป็นแบบที่ขายทั่วไป ถ้าอุปกรณ์ไม่ตอบ ให้ตรวจ baud, parity, slave ID และสาย A/B ที่อาจสลับกัน</p>
         </div>
 
         <div class="card">

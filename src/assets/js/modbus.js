@@ -1,5 +1,5 @@
-import { $, $$, showErr } from "/assets/js/common.js";
-import { buildRequest, decodeFrame, pairRegisters, parseHex, parseInt16ish, withCrc, toHex, hex4 } from "/assets/js/modbus-core.js";
+import { $, $$, showErr, toast } from "/assets/js/common.js";
+import { buildRequest, decodeFrame, pairRegisters, parseHex, parseInt16ish, withCrc, toHex, hex4, crc16, responseComplete, t35ms } from "/assets/js/modbus-core.js";
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -131,3 +131,185 @@ syncForm();
 // start with an example response so the decoder shows what it does
 $("#mbIn").value = EXAMPLES.resp();
 decode();
+
+// ---------------- send over Web Serial / RS485 ----------------
+const ser = {
+  port: null, reader: null, rx: [], waiter: null, busy: false, pollTimer: null,
+  stats: { tx: 0, ok: 0, timeout: 0, crc: 0 },
+};
+const serEl = {
+  connect: $("#mbSerConnect"), disconnect: $("#mbSerDisconnect"), send: $("#mbSerSend"), poll: $("#mbSerPoll"),
+  status: $("#mbSerStatus"), log: $("#mbSerLog"), stats: $("#mbSerStats"), rtt: $("#mbSerRtt"),
+};
+const MAX_LOG_LINES = 400;
+
+if (!("serial" in navigator)) {
+  $("#mbSerUnsupported").hidden = false;
+  serEl.connect.disabled = true;
+}
+
+function stamp() {
+  const d = new Date();
+  return d.toLocaleTimeString("th-TH", { hour12: false }) + "." + String(d.getMilliseconds()).padStart(3, "0");
+}
+function serLog(kind, text) {
+  const line = document.createElement("div");
+  const ts = document.createElement("span");
+  ts.className = "ts";
+  ts.textContent = `[${stamp()}] `;
+  const body = document.createElement("span");
+  body.className = { tx: "tx", rx: "hx", err: "err", sys: "sys" }[kind] || "";
+  body.textContent = text;
+  line.append(ts, body);
+  serEl.log.append(line);
+  while (serEl.log.childElementCount > MAX_LOG_LINES) serEl.log.firstElementChild.remove();
+  serEl.log.scrollTop = serEl.log.scrollHeight;
+}
+function serStats() {
+  const s = ser.stats;
+  serEl.stats.textContent = `TX ${s.tx} / OK ${s.ok} / timeout ${s.timeout} / CRC ผิด ${s.crc}`;
+}
+function serState() {
+  const on = !!ser.port;
+  serEl.connect.disabled = on || !("serial" in navigator);
+  serEl.disconnect.disabled = !on;
+  serEl.send.disabled = !on || ser.busy;
+  serEl.poll.disabled = !on;
+  serEl.poll.textContent = ser.pollTimer ? "หยุด polling" : "เริ่ม polling";
+  serEl.status.textContent = on ? (ser.pollTimer ? "กำลัง polling" : "เชื่อมต่อแล้ว") : "ยังไม่ได้เชื่อมต่อ";
+  serEl.status.classList.toggle("on", on);
+  for (const id of ["#mbSerBaud", "#mbSerParity", "#mbSerStop"]) $(id).disabled = on;
+}
+
+async function readLoop() {
+  while (ser.port && ser.port.readable) {
+    ser.reader = ser.port.readable.getReader();
+    try {
+      for (;;) {
+        const { value, done } = await ser.reader.read();
+        if (done) break;
+        if (!value) continue;
+        if (ser.waiter) { for (const b of value) ser.rx.push(b); ser.waiter.onData(); }
+        else serLog("rx", "ข้อมูลที่ไม่ได้ร้องขอ: " + toHex(value));
+      }
+    } catch (e) {
+      if (ser.port) serLog("err", "อ่านข้อมูลผิดพลาด: " + e.message);
+    } finally {
+      try { ser.reader.releaseLock(); } catch {}
+      ser.reader = null;
+    }
+    if (!ser.port) break;
+  }
+}
+
+async function serConnect() {
+  let port;
+  try { port = await navigator.serial.requestPort(); } catch { return; }
+  const baud = Number($("#mbSerBaud").value);
+  try {
+    await port.open({ baudRate: baud, dataBits: 8, parity: $("#mbSerParity").value, stopBits: Number($("#mbSerStop").value) });
+  } catch (e) {
+    serLog("err", "เปิดพอร์ตไม่ได้: " + e.message + " (พอร์ตอาจถูกโปรแกรมอื่นใช้อยู่)");
+    return;
+  }
+  ser.port = port;
+  port.addEventListener("disconnect", () => { serLog("err", "อุปกรณ์ถูกถอดออก"); serDisconnect(); });
+  serLog("sys", `เชื่อมต่อแล้ว ${baud} 8${$("#mbSerParity").value[0].toUpperCase()}${$("#mbSerStop").value}`);
+  serState();
+  readLoop();
+}
+
+async function serDisconnect() {
+  stopPoll();
+  const port = ser.port;
+  ser.port = null;
+  if (ser.waiter) ser.waiter.cancel();
+  try { if (ser.reader) await ser.reader.cancel(); } catch {}
+  try { if (port) await port.close(); } catch {}
+  serState();
+}
+
+// One request/response exchange. Resolves with the reply bytes, or null on timeout / broadcast.
+async function transact(req) {
+  const timeout = Math.max(50, Number($("#mbSerTimeout").value) || 1000);
+  const silence = Math.max(20, t35ms(Number($("#mbSerBaud").value)) * 4); // allow for USB adapter latency
+  ser.rx = [];
+  const writer = ser.port.writable.getWriter();
+  const t0 = performance.now();
+  try { await writer.write(req); } finally { writer.releaseLock(); }
+  ser.stats.tx++;
+  serLog("tx", "TX " + toHex(req));
+  if (req[0] === 0) { serLog("sys", "slave 0 คือ broadcast อุปกรณ์จะไม่ตอบกลับ"); serStats(); return null; }
+
+  const result = await new Promise((resolve) => {
+    let idle = null;
+    const finish = (val) => { clearTimeout(hard); clearTimeout(idle); ser.waiter = null; resolve(val); };
+    const hard = setTimeout(() => finish(ser.rx.length ? "partial" : null), timeout);
+    ser.waiter = {
+      cancel: () => finish(null),
+      onData: () => {
+        if (responseComplete(req, ser.rx)) return finish("ok");
+        clearTimeout(idle); // otherwise the frame ends after a period of silence
+        idle = setTimeout(() => finish("partial"), silence);
+      },
+    };
+  });
+  const rtt = performance.now() - t0;
+  const bytes = Uint8Array.from(ser.rx);
+  if (!result) { ser.stats.timeout++; serLog("err", `ไม่มีการตอบกลับภายใน ${timeout} ms`); serStats(); return null; }
+  serEl.rtt.textContent = `${rtt.toFixed(0)} ms`;
+  const crcOk = bytes.length >= 4 && crc16(bytes.subarray(0, bytes.length - 2)) === (bytes[bytes.length - 2] | (bytes[bytes.length - 1] << 8));
+  if (crcOk) ser.stats.ok++; else ser.stats.crc++;
+  let note = "";
+  if (!crcOk) note = result === "partial" ? "  (ได้รับไม่ครบ หรือ CRC ไม่ถูกต้อง)" : "  (CRC ไม่ถูกต้อง)";
+  if (bytes[0] !== req[0]) note += `  (ตอบจาก slave ${bytes[0]} ไม่ตรงกับที่ถาม)`;
+  if (bytes[1] === (req[1] | 0x80)) note += "  (exception)";
+  serLog(crcOk ? "rx" : "err", `RX ${toHex(bytes)}${note}`);
+  serStats();
+  return bytes;
+}
+
+async function sendCurrent() {
+  if (!ser.port || ser.busy) return;
+  let req;
+  try { req = parseHex($("#mbFrame").textContent); } catch { req = new Uint8Array(); }
+  if (req.length < 4) { toast("ยังไม่มีคำสั่งที่ถูกต้องในส่วนสร้างคำสั่ง"); stopPoll(); return; }
+  ser.busy = true; serState();
+  try {
+    const resp = await transact(req);
+    if (resp && resp.length && $("#mbSerAutoDecode").checked) {
+      $("#mbIn").value = toHex(resp);
+      $("#mbKind").value = "response";
+      decode();
+    }
+  } catch (e) {
+    serLog("err", "ส่งไม่สำเร็จ: " + e.message);
+  } finally {
+    ser.busy = false; serState();
+  }
+}
+
+function stopPoll() { clearTimeout(ser.pollTimer); ser.pollTimer = null; serState(); }
+function startPoll() {
+  const every = Math.max(100, Number($("#mbSerInterval").value) || 1000);
+  const tick = async () => {
+    if (!ser.pollTimer) return;
+    if (!document.hidden) await sendCurrent();
+    if (ser.pollTimer) ser.pollTimer = setTimeout(tick, every);
+  };
+  ser.pollTimer = setTimeout(tick, 0);
+  serState();
+}
+
+serEl.connect.addEventListener("click", serConnect);
+serEl.disconnect.addEventListener("click", async () => { await serDisconnect(); serLog("sys", "ตัดการเชื่อมต่อแล้ว"); });
+serEl.send.addEventListener("click", sendCurrent);
+serEl.poll.addEventListener("click", () => (ser.pollTimer ? stopPoll() : startPoll()));
+$("#mbSerClear").addEventListener("click", () => {
+  serEl.log.textContent = "";
+  ser.stats = { tx: 0, ok: 0, timeout: 0, crc: 0 };
+  serStats();
+  serEl.rtt.textContent = "";
+});
+addEventListener("beforeunload", () => { if (ser.port) serDisconnect(); });
+serState();

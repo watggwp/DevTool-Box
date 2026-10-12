@@ -207,3 +207,26 @@ export function pairRegisters(regs, order = "ABCD") {
   }
   return out;
 }
+
+// ---------------- serial transaction helpers ----------------
+// Expected byte length of a normal (non-exception) RTU response to a request frame.
+export function expectedResponseLength(req) {
+  const fc = req[1];
+  const qty = (req[4] << 8) | req[5];
+  if (fc === 1 || fc === 2) return 5 + Math.ceil(qty / 8);
+  if (fc === 3 || fc === 4) return 5 + 2 * qty;
+  if (fc === 5 || fc === 6 || fc === 15 || fc === 16) return 8;
+  return 0; // unknown function: rely on the silence timeout
+}
+
+// Is the received buffer a complete reply? Exceptions are always 5 bytes.
+export function responseComplete(req, buf) {
+  if (buf.length >= 2 && buf[1] === (req[1] | 0x80)) return buf.length >= 5;
+  const need = expectedResponseLength(req);
+  return need > 0 && buf.length >= need;
+}
+
+// Modbus RTU inter-frame silence (3.5 characters, 11 bits per char), at least 1.75 ms per the spec above 19200 baud.
+export function t35ms(baud) {
+  return baud > 19200 ? 1.75 : (3.5 * 11 * 1000) / baud;
+}

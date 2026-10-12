@@ -1,4 +1,4 @@
-import { $, $$, showErr } from "/js/common.js";
+import { $, $$, showErr } from "/assets/js/common.js";
 
 const inputs = $$(".tool input[data-base]");
 const info = $("#nInfo");

@@ -1,4 +1,4 @@
-import { $, showErr } from "/js/common.js";
+import { $, showErr } from "/assets/js/common.js";
 
 const inp = $("#urlIn"), out = $("#urlOut");
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

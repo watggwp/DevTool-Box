@@ -1,4 +1,4 @@
-import { $, showErr, enc } from "/js/common.js";
+import { $, showErr, enc } from "/assets/js/common.js";
 
 const area = $("#jsonArea"), info = $("#jsonInfo");
 

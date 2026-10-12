@@ -1,4 +1,4 @@
-import { $, showErr } from "/js/common.js";
+import { $, showErr } from "/assets/js/common.js";
 
 const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 $("#tzInfo").textContent = `timezone: ${tz}`;
@@ -8,7 +8,8 @@ function tick() {
   $("#nowSec").textContent = Math.floor(now / 1000);
   $("#nowMs").textContent = now;
 }
-tick(); setInterval(tick, 1000);
+tick();
+setInterval(() => { if (!document.hidden) tick(); }, 1000);
 
 function rows(d, extra = []) {
   if (isNaN(d)) return `<tr><td class="muted">วันที่ไม่ถูกต้อง</td></tr>`;

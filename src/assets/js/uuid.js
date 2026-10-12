@@ -1,4 +1,4 @@
-import { $, bytesToHex, bytesToBase64 } from "/js/common.js";
+import { $, bytesToHex, bytesToBase64 } from "/assets/js/common.js";
 
 const out = $("#uuidOut");
 const clamp = (el, lo, hi) => Math.min(hi, Math.max(lo, Number(el.value) || lo));

@@ -1,5 +1,5 @@
 // Serial Monitor using the Web Serial API (Chrome / Edge / Opera, secure context required).
-import { $, $$, toast, download, enc, dec, bytesToHex, hexToBytes, fmtBytes } from "/js/common.js";
+import { $, $$, toast, download, enc, dec, bytesToHex, hexToBytes, fmtBytes } from "/assets/js/common.js";
 
 const term = $("#terminal");
 const statusEl = $("#serialStatus");
@@ -15,7 +15,8 @@ let rxBytes = 0, txBytes = 0;
 let lineBuf = "";
 const history = [];
 let histIdx = -1;
-const MAX_LINES = 5000;
+const MAX_LINES = 3000;
+const optTs = $("#optTimestamp"), optAuto = $("#optAutoscroll"), optView = $("#optView");
 
 // Known USB vendor IDs for USB-to-serial bridges (used only for a friendly label).
 const VENDORS = { 0x10c4: "Silicon Labs CP210x", 0x1a86: "WCH CH34x", 0x0403: "FTDI", 0x2341: "Arduino", 0x303a: "Espressif", 0x2e8a: "Raspberry Pi", 0x0483: "STMicro" };
@@ -26,7 +27,7 @@ if (!("serial" in navigator)) {
 }
 
 function ts() {
-  if (!$("#optTimestamp").checked) return "";
+  if (!optTs.checked) return "";
   const d = new Date();
   return `<span class="ts">[${d.toLocaleTimeString("th-TH", { hour12: false })}.${String(d.getMilliseconds()).padStart(3, "0")}]</span> `;
 }
@@ -35,12 +36,25 @@ function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+// Lines are queued and written once per animation frame, so fast devices (921600 baud)
+// do not trigger thousands of layouts per second. Hidden tabs simply keep the newest lines.
+const pending = [];
+let flushQueued = false;
 function appendLine(html) {
-  const line = document.createElement("div");
-  line.innerHTML = html;
-  term.appendChild(line);
-  while (term.childElementCount > MAX_LINES) term.firstElementChild.remove();
-  if ($("#optAutoscroll").checked) term.scrollTop = term.scrollHeight;
+  pending.push(html);
+  if (pending.length > MAX_LINES) pending.splice(0, pending.length - MAX_LINES);
+  if (!flushQueued) { flushQueued = true; requestAnimationFrame(flushLines); }
+}
+function flushLines() {
+  flushQueued = false;
+  if (!pending.length) return;
+  const box = document.createElement("div");
+  box.innerHTML = "<div>" + pending.join("</div><div>") + "</div>";
+  pending.length = 0;
+  term.append(...box.childNodes);
+  let extra = term.childElementCount - MAX_LINES;
+  while (extra-- > 0) term.firstElementChild.remove();
+  if (optAuto.checked) term.scrollTop = term.scrollHeight;
 }
 
 function sys(msg, cls = "sys") { appendLine(`${ts()}<span class="${cls}">${escapeHtml(msg)}</span>`); }
@@ -63,7 +77,7 @@ function setConnected(on, label = "") {
 function renderChunk(bytes) {
   rxBytes += bytes.length;
   updateStats();
-  const view = $("#optView").value;
+  const view = optView.value;
   if (view === "hex" || view === "both") {
     const hex = bytesToHex(bytes);
     const txt = view === "both" ? " " + escapeHtml(dec.decode(bytes).replace(/[\x00-\x1f]/g, ".")) : "";
@@ -213,7 +227,7 @@ $$("#quickSend [data-send]").forEach((b) => {
 $("#optDTR").addEventListener("change", (e) => port?.setSignals({ dataTerminalReady: e.target.checked }).catch(() => {}));
 $("#optRTS").addEventListener("change", (e) => port?.setSignals({ requestToSend: e.target.checked }).catch(() => {}));
 
-function clearTerm() { term.innerHTML = ""; rxBytes = txBytes = 0; updateStats(); }
+function clearTerm() { pending.length = 0; term.textContent = ""; rxBytes = txBytes = 0; updateStats(); }
 $("#serialClear").addEventListener("click", clearTerm);
 $("#serialSave").addEventListener("click", () => {
   const text = [...term.children].map((l) => l.textContent).join("\n");

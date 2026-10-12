@@ -1,4 +1,4 @@
-// Shared behaviour for every page: theme toggle, mobile menu, copy/clear buttons, toast, helpers, home search.
+// Shared behaviour for every page: theme toggle, copy/clear buttons, toast, helpers, home search.
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -114,22 +114,6 @@ function safeGet(k) { try { return localStorage.getItem(k); } catch { return nul
 function safeSet(k, v) { try { localStorage.setItem(k, v); } catch {} }
 function safeRemove(k) { try { localStorage.removeItem(k); } catch {} }
 
-// ---------- mobile menu ----------
-function initMenu() {
-  const btn = $("#menuBtn"), sb = $("#sidebar");
-  if (!btn || !sb) return;
-  btn.addEventListener("click", () => {
-    const open = sb.classList.toggle("open");
-    btn.setAttribute("aria-expanded", String(open));
-  });
-  document.addEventListener("click", (e) => {
-    if (sb.classList.contains("open") && !sb.contains(e.target) && e.target !== btn) {
-      sb.classList.remove("open");
-      btn.setAttribute("aria-expanded", "false");
-    }
-  });
-}
-
 // ---------- generic copy / clear buttons ----------
 function initButtons() {
   document.addEventListener("click", (e) => {
@@ -157,40 +141,29 @@ function initButtons() {
   });
 }
 
-function initSecureBadge() {
-  const b = $("#secureBadge");
-  if (!b) return;
-  if (window.isSecureContext) { b.textContent = "secure"; b.classList.add("ok"); }
-  else { b.textContent = "not secure"; }
-}
-
 // ---------- home page search ----------
 function initSearch() {
   const box = $("#toolSearch");
   if (!box) return;
-  const cards = $$("#toolGrid .tool-card");
+  const cards = $$(".tool-card");
+  const groups = $$(".group");
   const empty = $("#toolEmpty");
   const apply = () => {
     const q = box.value.trim().toLowerCase();
-    let shown = 0;
-    for (const c of cards) {
-      const hit = !q || c.dataset.search.includes(q);
-      c.hidden = !hit;
-      if (hit) shown++;
-    }
-    empty.hidden = shown > 0;
+    for (const c of cards) c.hidden = !!q && !c.dataset.search.includes(q);
+    for (const g of groups) g.hidden = !g.querySelector(".tool-card:not([hidden])");
+    empty.hidden = cards.some((c) => !c.hidden);
   };
   box.addEventListener("input", apply);
   box.addEventListener("keydown", (e) => {
     if (e.key === "Enter") { const first = cards.find((c) => !c.hidden); if (first) location.href = first.href; }
+    if (e.key === "Escape") { box.value = ""; apply(); }
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "/" && !/input|textarea|select/i.test(e.target.tagName)) { e.preventDefault(); box.focus(); box.select(); }
+    if (e.key === "/" && !/input|textarea|select/i.test(e.target.tagName)) { e.preventDefault(); box.focus(); }
   });
 }
 
 initTheme();
-initMenu();
 initButtons();
-initSecureBadge();
 initSearch();

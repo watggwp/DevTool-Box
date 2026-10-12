@@ -1,61 +1,66 @@
 # DevTools Box
 
-เว็บแอปรวมเครื่องมือนักพัฒนา แต่ละเครื่องมือแยกเป็นหน้าของตัวเอง ทำงานในเบราว์เซอร์ทั้งหมด (ไม่ส่งข้อมูลขึ้นเซิร์ฟเวอร์)
+เว็บรวมเครื่องมือนักพัฒนาและงาน embedded หน้าหลักแสดงเครื่องมือทั้งหมดแบ่งตามหมวด กดเข้าไปแต่ละเครื่องมือเป็นหน้าแยกของตัวเอง มีปุ่ม "หน้าหลัก" ด้านบนและ footer เครดิตผู้พัฒนาทุกหน้า ทุกเครื่องมือทำงานในเบราว์เซอร์ ไม่ส่งข้อมูลขึ้นเซิร์ฟเวอร์
 
 | URL | เครื่องมือ |
 |---|---|
-| `/serial` | Serial Monitor (Web Serial API) สำหรับ Arduino / ESP32 / STM32 |
-| `/base64` | Base64 encode / decode (UTF-8, URL-safe, ไฟล์) |
-| `/url` | URL encode / decode และแยก query parameters |
-| `/hex` | Hex <-> Text และ hex dump |
-| `/json` | JSON format / minify / validate / sort keys / escape |
-| `/jwt` | JWT decoder (header, payload, iat/exp) |
-| `/hash` | MD5, SHA-1/256/384/512, CRC32, CRC16 Modbus, XOR / SUM checksum |
-| `/time` | Unix timestamp <-> date |
-| `/base` | แปลงเลขฐาน 2 / 8 / 10 / 16 |
-| `/uuid` | UUID v4, random bytes, password |
+| `/serial/` | Serial Monitor (Web Serial API) สำหรับ Arduino / ESP32 / STM32 |
+| `/hex/` | Hex <-> Text และ hex dump |
+| `/hash/` | MD5, SHA-1/256/384/512, CRC32, CRC16 Modbus, XOR / SUM checksum |
+| `/base/` | แปลงเลขฐาน 2 / 8 / 10 / 16 |
+| `/base64/` | Base64 encode / decode (UTF-8, URL-safe, ไฟล์) |
+| `/url/` | URL encode / decode และแยก query parameters |
+| `/jwt/` | JWT decoder |
+| `/json/` | JSON format / minify / validate / sort keys / escape |
+| `/time/` | Unix timestamp <-> date |
+| `/uuid/` | UUID v4, random bytes, password |
 
 ## รันในเครื่อง
 
+ไม่มี dependency ต้องติดตั้ง ใช้แค่ Node.js 18 ขึ้นไป
+
 ```bash
-npm install
-npm run dev      # build หน้าเว็บ + start server แบบ watch
-# เปิด http://localhost:3000
+npm run dev      # build -> dist/ แล้วเปิด server ที่ http://localhost:3000
 ```
 
 ## โครงสร้าง
 
 ```
-build.mjs          ประกอบ src/layout.html + src/pages/<tool>.html -> public/<tool>.html
-server.js          Express static server (/serial -> public/serial.html)
-src/tools.json     รายการเครื่องมือ (ชื่อ, slug, คำอธิบาย) ใช้สร้างเมนูและหน้าแรก
-src/pages/         เนื้อหาแต่ละหน้า (HTML fragment)
-public/js/         common.js (ใช้ร่วม) + <tool>.js แยกของแต่ละเครื่องมือ
-public/style.css   สไตล์ รองรับ light/dark อัตโนมัติ
+src/site.json      ชื่อเว็บ, เครดิตผู้พัฒนา (footer), หมวดหมู่เครื่องมือ
+src/tools.json     รายการเครื่องมือ (1 รายการ = 1 หน้า)
+src/layout.html    โครงหน้าที่ใช้ร่วมกัน (แถบบน + เนื้อหา + footer)
+src/pages/         เนื้อหาของแต่ละเครื่องมือ
+src/assets/        style.css, favicon, js/ (common.js + <tool>.js)
+build.mjs          สร้างเว็บนิ่งลง dist/
+server.js          static server ขนาดเล็ก ใช้แค่ Node built-in
 ```
 
-## เพิ่มเครื่องมือใหม่ (ตัวอย่าง: เครื่องมือ "Text Diff" ที่ URL `/diff`)
+## แก้เครดิตใน footer
 
-1. เพิ่มรายการใน `src/tools.json` (ชื่อในเมนู, ไอคอนสั้น, คำอธิบาย, คำค้น)
+แก้ `src/site.json` ส่วน `developer` (ชื่อ + ลิงก์) และ `organization` แล้ว `npm run build`
+
+## เพิ่มเครื่องมือใหม่ (ตัวอย่าง: "Text Diff" ที่ `/diff/`)
+
+1. เพิ่มรายการใน `src/tools.json` โดยระบุ `group` ให้ตรงกับหมวดใน `src/site.json`
    ```json
-   { "slug": "diff", "name": "Text Diff", "ico": "+-", "desc": "เปรียบเทียบข้อความสองชุด", "keywords": "compare diff" }
+   { "slug": "diff", "group": "data", "name": "Text Diff", "ico": "+-", "desc": "เปรียบเทียบข้อความสองชุด", "keywords": "compare diff" }
    ```
-2. สร้าง `src/pages/diff.html` ใส่เฉพาะเนื้อหาส่วนกลางของหน้า (เริ่มด้วย `<section class="tool"><h1>...</h1><p class="hint">...</p>` แล้วตามด้วย `.card` ต่าง ๆ) ไม่ต้องใส่ header/sidebar เพราะ `src/layout.html` ใส่ให้
-3. สร้าง `public/js/diff.js` เป็น ES module เขียน logic ของหน้านั้น (import helper จาก `/js/common.js` ได้ เช่น `$`, `toast`, `copyText`)
-4. รัน `npm run build` สคริปต์จะประกอบเป็น `public/diff.html` และใส่ลิงก์ในเมนูด้านซ้ายกับการ์ดหน้าแรกให้อัตโนมัติ (บน Render ขั้นตอนนี้รันเองตอน build)
+2. สร้าง `src/pages/diff.html` ใส่เฉพาะเนื้อหา เริ่มด้วย `<section class="tool"><h1>...</h1><p class="hint">...</p>` ตามด้วย `.card`
+3. สร้าง `src/assets/js/diff.js` (ES module, import helper จาก `/assets/js/common.js`)
+4. `npm run build` หน้าใหม่และการ์ดในหน้าหลักจะถูกสร้างให้อัตโนมัติ
 
 ## Deploy บน Render
 
+แนะนำแบบ **Static Site** (ไม่มี server process เลย เสิร์ฟผ่าน CDN ของ Render, ฟรี, มี HTTPS)
+
 1. push โค้ดขึ้น GitHub / GitLab
-2. ใน Render เลือก **New > Blueprint** แล้วชี้ไปที่ repo (ใช้ `render.yaml` อัตโนมัติ) หรือสร้าง **Web Service** เอง:
-   - Runtime: Node
-   - Build command: `npm ci && npm run build`
-   - Start command: `npm start`
-   - Health check path: `/healthz`
-3. Render ให้ HTTPS อัตโนมัติ ซึ่งจำเป็นสำหรับ Web Serial API
+2. Render > **New > Blueprint** แล้วเลือก repo (อ่าน `render.yaml` อัตโนมัติ) หรือสร้าง **Static Site** เอง:
+   - Build command: `node build.mjs`
+   - Publish directory: `dist`
+
+ถ้าต้องการรันเป็น Web Service แทน ใช้ build `npm run build` และ start `npm start` (server ใช้ RAM ราว 40-50 MB)
 
 ## หมายเหตุ Web Serial
 
-- รองรับ Chrome, Edge, Opera (desktop และ Android) ไม่รองรับ Firefox / Safari
-- ต้องเปิดผ่าน HTTPS หรือ `localhost`
-- บน Windows ต้องติดตั้ง driver ของชิป USB-serial (CP210x, CH340, FTDI) ก่อน เบราว์เซอร์ตรวจสอบ/ติดตั้ง driver ให้ไม่ได้ ถ้าไม่มี driver พอร์ตจะไม่ปรากฏในหน้าต่างเลือกพอร์ต หน้า `/serial` มีแผง "ไม่เห็นพอร์ต COM?" พร้อมลิงก์ดาวน์โหลด driver จากผู้ผลิต และจะเปิดแผงนี้ให้อัตโนมัติเมื่อผู้ใช้ปิดหน้าต่างเลือกพอร์ตโดยไม่ได้เลือก
+- รองรับ Chrome, Edge, Opera ไม่รองรับ Firefox / Safari และต้องเปิดผ่าน HTTPS หรือ `localhost`
+- เบราว์เซอร์ตรวจสอบหรือติดตั้ง driver ให้ไม่ได้ ถ้า Windows ไม่มี driver ของชิป USB-serial (CP210x, CH340, FTDI) พอร์ตจะไม่ปรากฏ หน้า `/serial/` จะเปิดแผงช่วยเหลือพร้อมลิงก์ดาวน์โหลด driver ให้อัตโนมัติเมื่อผู้ใช้ปิดหน้าต่างเลือกพอร์ตโดยไม่เลือก

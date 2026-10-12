@@ -1,12 +1,13 @@
-import { $, $$, showErr, enc, bytesToHex, hexToBytes, fmtBytes } from "/js/common.js";
+import { $, $$, showErr, enc, bytesToHex, hexToBytes, fmtBytes } from "/assets/js/common.js";
 
 const inp = $("#hashIn");
 let fileBytes = null;
 
 // ---------- MD5 (RFC 1321), compact implementation ----------
+const MD5_K = Uint32Array.from({ length: 64 }, (_, i) => Math.floor(Math.abs(Math.sin(i + 1)) * 2 ** 32));
+const MD5_S = [7, 12, 17, 22, 5, 9, 14, 20, 4, 11, 16, 23, 6, 10, 15, 21];
 function md5(bytes) {
-  const K = new Uint32Array(64), S = [7, 12, 17, 22, 5, 9, 14, 20, 4, 11, 16, 23, 6, 10, 15, 21];
-  for (let i = 0; i < 64; i++) K[i] = Math.floor(Math.abs(Math.sin(i + 1)) * 2 ** 32);
+  const K = MD5_K, S = MD5_S;
   const len = bytes.length, padLen = (((len + 8) >> 6) + 1) << 6;
   const buf = new Uint8Array(padLen);
   buf.set(bytes); buf[len] = 0x80;
@@ -87,7 +88,13 @@ async function compute() {
   }
 }
 
-inp.addEventListener("input", () => { fileBytes = null; $("#hashFileName").textContent = ""; compute(); });
+let debounce;
+inp.addEventListener("input", () => {
+  fileBytes = null;
+  $("#hashFileName").textContent = "";
+  clearTimeout(debounce);
+  debounce = setTimeout(compute, 200);
+});
 $("#hashIsHex").addEventListener("change", compute);
 $("#hashFile").addEventListener("change", async (e) => {
   const f = e.target.files[0];

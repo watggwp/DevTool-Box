@@ -1,4 +1,4 @@
-import { $, showErr, download, enc, dec, bytesToBase64, base64ToBytes, fmtBytes } from "/js/common.js";
+import { $, showErr, download, enc, dec, bytesToBase64, base64ToBytes, fmtBytes } from "/assets/js/common.js";
 
 const inp = $("#b64In"), out = $("#b64Out");
 let lastFileName = "";

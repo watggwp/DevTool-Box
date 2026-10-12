@@ -1,4 +1,4 @@
-import { $, showErr, base64ToBytes } from "/js/common.js";
+import { $, showErr, base64ToBytes } from "/assets/js/common.js";
 
 const inp = $("#jwtIn");
 

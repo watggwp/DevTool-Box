@@ -1,11 +1,22 @@
+# Render Static Site: no server process at all, served from Render's CDN with free HTTPS.
+# (If you prefer a Node Web Service instead, use: buildCommand "npm run build", startCommand "npm start".)
 services:
   - type: web
-    name: devtools-web
-    runtime: node
-    plan: free
-    buildCommand: npm ci && npm run build
-    startCommand: npm start
-    healthCheckPath: /healthz
-    envVars:
-      - key: NODE_VERSION
-        value: "20"
+    name: devtools-box
+    runtime: static
+    buildCommand: node build.mjs
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: Permissions-Policy
+        value: serial=(self), usb=(self)
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=3600

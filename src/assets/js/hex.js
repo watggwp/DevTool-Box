@@ -1,4 +1,4 @@
-import { $, showErr, enc, bytesToHex, hexToBytes } from "/js/common.js";
+import { $, showErr, enc, bytesToHex, hexToBytes } from "/assets/js/common.js";
 
 const txt = $("#hexText"), out = $("#hexOut");
 const SEPS = { space: " ", none: "", comma: ", ", bsx: "\\x", "0x": " 0x" };

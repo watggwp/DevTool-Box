@@ -1,0 +1,59 @@
+      <section class="tool">
+        <h1>Struct Parser</h1>
+        <p class="hint">แยกค่าจาก hex bytes ตามรูปแบบที่กำหนด เหมาะกับการอ่าน packet จากเซนเซอร์ struct ของ C/C++ หรือข้อมูลดิบจาก Serial</p>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="row between"><label for="stHex">ข้อมูล (hex bytes)</label><span class="muted" id="stLen"></span></div>
+            <textarea id="stHex" rows="6" spellcheck="false" class="mono" placeholder="AA 55 01 0A CD CC 0C 42 ..."></textarea>
+          </div>
+          <div class="card">
+            <div class="row between"><label for="stSpec">รูปแบบ (format)</label>
+              <select id="stPreset" aria-label="ตัวอย่าง">
+                <option value="">เลือกตัวอย่าง...</option>
+                <option value="sensor">Packet เซนเซอร์ (struct ESP32)</option>
+                <option value="modbus">Modbus registers (big-endian)</option>
+                <option value="array">Array + raw bytes</option>
+              </select>
+            </div>
+            <textarea id="stSpec" rows="6" spellcheck="false" class="mono" placeholder="header:u16be id:u8 temp:f32 hum:f32"></textarea>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row wrap gap">
+            <label>Endian ค่าเริ่มต้น
+              <select id="stEndian">
+                <option value="le">Little-endian (ESP32, STM32, Arduino, x86)</option>
+                <option value="be">Big-endian (Modbus, network)</option>
+              </select>
+            </label>
+            <span class="spacer"></span>
+            <span class="pill" id="stUsed" hidden></span>
+            <button class="btn ghost sm" type="button" data-clear="#stHex,#stSpec">ล้าง</button>
+          </div>
+          <table class="tbl" id="stTbl"></table>
+          <div class="notice err" id="stErr" hidden></div>
+          <div class="notice warn" id="stLeft" hidden></div>
+        </div>
+
+        <details class="help">
+          <summary>วิธีเขียนรูปแบบ</summary>
+          <div class="body">
+            <p>เขียนชนิดข้อมูลเรียงตามลำดับไบต์ คั่นด้วยช่องว่าง จุลภาค หรือขึ้นบรรทัดใหม่ ใส่ชื่อนำหน้าด้วย <code>ชื่อ:</code> ได้ และใช้ <code>#</code> เขียนหมายเหตุท้ายบรรทัด</p>
+            <table class="tbl">
+              <tr><th>u8 i8</th><td>จำนวนเต็ม 1 ไบต์ ไม่มี / มีเครื่องหมาย</td></tr>
+              <tr><th>u16 i16</th><td>จำนวนเต็ม 2 ไบต์</td></tr>
+              <tr><th>u32 i32</th><td>จำนวนเต็ม 4 ไบต์</td></tr>
+              <tr><th>u64 i64</th><td>จำนวนเต็ม 8 ไบต์</td></tr>
+              <tr><th>f32 f64</th><td>float และ double (IEEE 754)</td></tr>
+              <tr><th>bool</th><td>1 ไบต์ ค่าไม่ใช่ 0 = true</td></tr>
+              <tr><th>strN</th><td>ข้อความ N ไบต์ เช่น <code>str8</code> (ตัด 0x00 ท้ายออก)</td></tr>
+              <tr><th>hexN</th><td>แสดงไบต์ดิบ N ไบต์</td></tr>
+              <tr><th>skipN / padN</th><td>ข้าม N ไบต์ เช่น padding ของ struct</td></tr>
+              <tr><th>le / be</th><td>ต่อท้ายเพื่อกำหนด endian เฉพาะตัว เช่น <code>u16be</code></td></tr>
+              <tr><th>[N]</th><td>array N ตัว เช่น <code>adc:u16[4]</code></td></tr>
+            </table>
+          </div>
+        </details>
+      </section>

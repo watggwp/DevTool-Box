@@ -127,7 +127,7 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 6px; border: 1px s
 .tc-body span { font-size: 13px; color: var(--muted); line-height: 1.45; }
 .tc-go { font-size: 22px; color: var(--muted); line-height: 1; }
 .tool-card:hover .tc-go { color: var(--accent); }
-.empty { color: var(--muted); padding: 40px 0; text-align: center; }
+#toolEmpty { color: var(--muted); padding: 40px 0; text-align: center; }
 
 /* ================= 404 ================= */
 .notfound { text-align: center; padding: 60px 0; }

@@ -1,0 +1,75 @@
+      <section class="tool">
+        <h1>Serial Plotter <small>Web Serial API</small></h1>
+        <p class="hint">วาดกราฟเรียลไทม์จากค่าที่บอร์ดส่งผ่าน Serial แบบเดียวกับ Arduino Serial Plotter ใช้ได้กับ Chrome, Edge, Opera กดปุ่ม "ลองด้วยข้อมูลตัวอย่าง" เพื่อดูการทำงานโดยไม่ต้องต่อบอร์ด</p>
+        <div class="notice warn" id="plUnsupported" hidden>
+          เบราว์เซอร์นี้ไม่รองรับ Web Serial API กรุณาใช้ Google Chrome หรือ Microsoft Edge (ยังลองโหมดข้อมูลตัวอย่างได้)
+        </div>
+
+        <div class="card">
+          <div class="row wrap gap">
+            <label>Baud rate
+              <input list="plBaudList" id="plBaud" value="115200" inputmode="numeric" size="9" class="mono">
+              <datalist id="plBaudList">
+                <option value="9600"><option value="19200"><option value="38400"><option value="57600"><option value="74880"><option value="115200"><option value="230400"><option value="250000"><option value="460800"><option value="921600"><option value="1000000"><option value="2000000">
+              </datalist>
+            </label>
+            <button class="btn primary" id="plConnect" type="button">เชื่อมต่อ</button>
+            <button class="btn danger" id="plDisconnect" type="button" disabled>ตัดการเชื่อมต่อ</button>
+            <button class="btn" id="plDemo" type="button">ลองด้วยข้อมูลตัวอย่าง</button>
+            <span class="status" id="plStatus">ยังไม่ได้เชื่อมต่อ</span>
+          </div>
+          <div class="row wrap gap small">
+            <label>แสดงล่าสุด
+              <select id="plWindow">
+                <option value="100">100 จุด</option>
+                <option value="250">250 จุด</option>
+                <option value="500" selected>500 จุด</option>
+                <option value="1000">1000 จุด</option>
+                <option value="2000">2000 จุด</option>
+              </select>
+            </label>
+            <label>แกน Y
+              <select id="plScale">
+                <option value="auto">ปรับอัตโนมัติ</option>
+                <option value="fixed">กำหนดเอง</option>
+              </select>
+            </label>
+            <span id="plFixedWrap" class="row gap" hidden style="margin:0">
+              <label>min <input id="plMin" type="number" value="0" step="any"></label>
+              <label>max <input id="plMax" type="number" value="100" step="any"></label>
+            </span>
+            <label class="chk"><input type="checkbox" id="plSmooth"> เส้นหนา</label>
+            <span class="spacer"></span>
+            <button class="btn sm" id="plPause" type="button">หยุดภาพ</button>
+            <button class="btn sm" id="plClear" type="button">ล้าง</button>
+            <button class="btn sm" id="plCsv" type="button">CSV</button>
+            <button class="btn sm" id="plPng" type="button">PNG</button>
+          </div>
+        </div>
+
+        <div class="card pl-chart-card">
+          <canvas id="plCanvas" class="pl-canvas" aria-label="กราฟข้อมูลจาก Serial" role="img"></canvas>
+          <div class="pl-legend" id="plLegend"></div>
+          <div class="row wrap gap small">
+            <span class="muted">บรรทัดล่าสุด:</span>
+            <code class="mono pl-last" id="plLast">-</code>
+            <span class="spacer"></span>
+            <span class="muted" id="plCount">0 จุด</span>
+          </div>
+        </div>
+
+        <details class="help">
+          <summary>รูปแบบข้อมูลที่รองรับ (ตัวอย่างโค้ด Arduino)</summary>
+          <div class="body">
+            <p>ส่งค่าหนึ่งชุดต่อหนึ่งบรรทัด คั่นด้วยช่องว่าง แท็บ หรือจุลภาค ใส่ชื่อเส้นกราฟได้ด้วย <code>ชื่อ:ค่า</code> รองรับสูงสุด 8 เส้น</p>
+            <pre class="dump mono">void loop() {
+  float t = readTemp();
+  float h = readHumidity();
+  Serial.print("temp:"); Serial.print(t);
+  Serial.print(",hum:"); Serial.println(h);
+  delay(50);
+}</pre>
+            <p>ตัวอย่างบรรทัดที่ใช้ได้: <code>1.2 3.4 5</code>, <code>temp:25.3,hum:60</code>, <code>a=1 b=2</code> ถ้าส่งบรรทัดที่เป็นชื่ออย่างเดียว เช่น <code>temp hum</code> จะใช้เป็นชื่อเส้นของค่าที่ไม่มีชื่อ</p>
+          </div>
+        </details>
+      </section>

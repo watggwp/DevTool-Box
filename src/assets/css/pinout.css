@@ -1,0 +1,28 @@
+.board-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.board-desc { margin: 10px 0 4px; }
+.pin-filters { margin-top: 10px; }
+.pin-legend { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 13px; color: var(--text-2); padding: 12px 18px; }
+.pin-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.lv { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.lv-ok { background: var(--ok); }
+.lv-warn { background: light-dark(#d97706, #e3b341); }
+.lv-danger { background: var(--danger); }
+.lv-power { background: var(--muted); }
+.pin-table-card { padding: 6px 10px; overflow-x: auto; }
+.pin-tbl { min-width: 640px; }
+.pin-tbl thead th { position: sticky; top: 0; background: var(--surface); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.pin-tbl td { word-break: normal; }
+.pin-label { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; white-space: nowrap; }
+.pin-note { color: var(--text-2); font-size: 13px; min-width: 220px; }
+.pin-row.pin-danger td { background: color-mix(in srgb, var(--danger) 6%, transparent); }
+.pin-row.pin-power td { color: var(--muted); }
+.fn { display: inline-block; font: 600 11.5px var(--mono); padding: 2px 7px; margin: 2px 4px 2px 0; border-radius: 5px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); white-space: nowrap; }
+.fn-adc { background: light-dark(#eef6ff, #15253a); color: light-dark(#1d4ed8, #79b8ff); border-color: transparent; }
+.fn-i2c { background: light-dark(#ecfdf3, #12261a); color: light-dark(#15803d, #56d364); border-color: transparent; }
+.fn-spi { background: light-dark(#f5f0ff, #241b3a); color: light-dark(#6d28d9, #c4a5ff); border-color: transparent; }
+.fn-uart { background: light-dark(#fff7ed, #2d1f10); color: light-dark(#c2410c, #ffa657); border-color: transparent; }
+.fn-pwm { background: light-dark(#fdf2f8, #2d1525); color: light-dark(#be185d, #ff7eb6); border-color: transparent; }
+.fn-touch { background: light-dark(#ecfeff, #102a2e); color: light-dark(#0e7490, #56d4dd); border-color: transparent; }
+.fn-flash { background: var(--danger-soft); color: var(--danger); border-color: transparent; }
+.pin-notes { margin: 0; padding-left: 20px; color: var(--text-2); font-size: 14px; }
+.pin-notes li { margin: 4px 0; }

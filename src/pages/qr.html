@@ -1,0 +1,61 @@
+      <section class="tool">
+        <h1>QR Code Generator</h1>
+        <p class="hint">สร้าง QR code จากข้อความ URL หรือข้อมูล Wi-Fi ทำงานในเบราว์เซอร์ทั้งหมด ไม่ใช้ไลบรารีภายนอก ดาวน์โหลดเป็น PNG หรือ SVG ได้</p>
+        <div class="two-col qr-layout">
+          <div class="card">
+            <div class="qr-tabs" role="tablist" aria-label="ประเภทข้อมูล">
+              <button class="btn sm primary" type="button" role="tab" data-mode="text" aria-selected="true">ข้อความ / URL</button>
+              <button class="btn sm" type="button" role="tab" data-mode="wifi" aria-selected="false">Wi-Fi</button>
+            </div>
+
+            <div id="qrModeText">
+              <label for="qrText" class="field-label">ข้อความหรือ URL</label>
+              <textarea id="qrText" rows="5" spellcheck="false" placeholder="https://example.com">https://www.syntechnology.com/en/about/</textarea>
+            </div>
+
+            <div id="qrModeWifi" hidden>
+              <label class="field-label" for="wifiSsid">ชื่อ Wi-Fi (SSID)</label>
+              <input id="wifiSsid" class="wide" autocomplete="off" placeholder="MyWiFi">
+              <label class="field-label" for="wifiPass">รหัสผ่าน</label>
+              <input id="wifiPass" class="wide mono" autocomplete="off" placeholder="password">
+              <div class="row wrap gap">
+                <label>ความปลอดภัย
+                  <select id="wifiSec"><option value="WPA">WPA / WPA2 / WPA3</option><option value="WEP">WEP</option><option value="nopass">ไม่มีรหัสผ่าน</option></select>
+                </label>
+                <label class="chk"><input type="checkbox" id="wifiHidden"> เครือข่ายซ่อน (hidden)</label>
+              </div>
+              <p class="muted">ข้อมูลที่เข้ารหัส: <code class="mono" id="wifiPayload"></code></p>
+            </div>
+
+            <h2 style="margin-top:14px">ตัวเลือก</h2>
+            <div class="row wrap gap">
+              <label>ระดับกู้ข้อมูล (ECC)
+                <select id="qrEcl">
+                  <option value="L">L (7%)</option>
+                  <option value="M" selected>M (15%)</option>
+                  <option value="Q">Q (25%)</option>
+                  <option value="H">H (30%)</option>
+                </select>
+              </label>
+              <label>ขนาด (px) <input id="qrSize" type="number" min="64" max="2048" step="32" value="320"></label>
+              <label>ขอบ (module) <input id="qrMargin" type="number" min="0" max="16" value="4"></label>
+            </div>
+            <div class="row wrap gap">
+              <label>สีจุด <input id="qrFg" type="color" value="#000000"></label>
+              <label>สีพื้น <input id="qrBg" type="color" value="#ffffff"></label>
+              <button class="btn sm ghost" type="button" id="qrSwap">สลับสี</button>
+            </div>
+          </div>
+
+          <div class="card qr-preview-card">
+            <div class="qr-preview"><canvas id="qrCanvas" width="320" height="320" aria-label="QR code preview"></canvas></div>
+            <p class="muted qr-info" id="qrInfo"></p>
+            <div class="row wrap gap qr-actions">
+              <button class="btn primary" type="button" id="qrPng">ดาวน์โหลด PNG</button>
+              <button class="btn" type="button" id="qrSvg">ดาวน์โหลด SVG</button>
+              <button class="btn ghost" type="button" id="qrCopy">คัดลอกรูป</button>
+            </div>
+          </div>
+        </div>
+        <div class="notice err" id="qrErr" hidden></div>
+      </section>

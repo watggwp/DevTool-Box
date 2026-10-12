@@ -1,0 +1,87 @@
+      <section class="tool">
+        <h1>Regex Tester</h1>
+        <p class="hint">ทดสอบ regular expression แบบ JavaScript ไฮไลต์ผลลัพธ์ทันที แสดง capture group และทดลองแทนที่ข้อความ การทำงานแยกอยู่ใน Worker จึงไม่ค้างแม้รูปแบบจะซับซ้อน</p>
+
+        <div class="card">
+          <h2>รูปแบบ (Pattern)</h2>
+          <div class="rx-pattern">
+            <span class="rx-slash" aria-hidden="true">/</span>
+            <input id="rxPattern" class="mono" placeholder="เช่น (\d{3})-(\d{4})" autocomplete="off" spellcheck="false" aria-label="Regex pattern">
+            <span class="rx-slash" aria-hidden="true">/</span>
+            <span class="rx-flags mono" id="rxFlagText">g</span>
+          </div>
+          <div class="row wrap gap small">
+            <label class="chk" title="global: หาทุกตำแหน่ง"><input type="checkbox" data-flag="g" checked> g <span class="muted">ทั้งหมด</span></label>
+            <label class="chk" title="ignore case: ไม่สนตัวพิมพ์เล็ก/ใหญ่"><input type="checkbox" data-flag="i"> i <span class="muted">ไม่สนตัวพิมพ์</span></label>
+            <label class="chk" title="multiline: ^ และ $ ตรงต้น/ท้ายบรรทัด"><input type="checkbox" data-flag="m"> m <span class="muted">หลายบรรทัด</span></label>
+            <label class="chk" title="dotAll: . ตรงกับขึ้นบรรทัดใหม่ด้วย"><input type="checkbox" data-flag="s"> s <span class="muted">dotAll</span></label>
+            <label class="chk" title="unicode"><input type="checkbox" data-flag="u"> u <span class="muted">unicode</span></label>
+            <label class="chk" title="sticky: เริ่มหาจากตำแหน่ง lastIndex เท่านั้น"><input type="checkbox" data-flag="y"> y <span class="muted">sticky</span></label>
+            <span class="spacer"></span>
+            <label>ตัวอย่าง
+              <select id="rxPreset">
+                <option value="">เลือก...</option>
+                <option value="email">อีเมล</option>
+                <option value="ipv4">IPv4</option>
+                <option value="thphone">เบอร์โทรไทย</option>
+                <option value="mac">MAC address</option>
+                <option value="hex">Hex bytes</option>
+                <option value="date">วันที่ YYYY-MM-DD</option>
+              </select>
+            </label>
+            <button class="btn sm" type="button" id="rxCopyLiteral" title="คัดลอกเป็น /pattern/flags">คัดลอก /re/</button>
+          </div>
+          <div class="rx-chips" id="rxChips" aria-label="แทรกสัญลักษณ์">
+            <span class="muted">แทรก:</span>
+            <button class="btn sm mono" type="button" data-ins="\d" title="ตัวเลข 0-9">\d</button>
+            <button class="btn sm mono" type="button" data-ins="\w" title="ตัวอักษร ตัวเลข _">\w</button>
+            <button class="btn sm mono" type="button" data-ins="\s" title="ช่องว่าง">\s</button>
+            <button class="btn sm mono" type="button" data-ins="." title="อักขระใดก็ได้">.</button>
+            <button class="btn sm mono" type="button" data-ins="^" title="ต้นข้อความ/บรรทัด">^</button>
+            <button class="btn sm mono" type="button" data-ins="$" title="ท้ายข้อความ/บรรทัด">$</button>
+            <button class="btn sm mono" type="button" data-ins="\b" title="ขอบคำ">\b</button>
+            <button class="btn sm mono" type="button" data-ins="[]" data-back="1" title="ชุดอักขระ">[ ]</button>
+            <button class="btn sm mono" type="button" data-ins="[^]" data-back="1" title="ไม่ใช่อักขระในชุด">[^ ]</button>
+            <button class="btn sm mono" type="button" data-ins="()" data-back="1" title="capture group">( )</button>
+            <button class="btn sm mono" type="button" data-ins="(?:)" data-back="1" title="group ไม่จับค่า">(?: )</button>
+            <button class="btn sm mono" type="button" data-ins="(?<name>)" data-back="1" title="named group">(?&lt;name&gt;)</button>
+            <button class="btn sm mono" type="button" data-ins="(?=)" data-back="1" title="lookahead">(?= )</button>
+            <button class="btn sm mono" type="button" data-ins="*" title="0 ครั้งขึ้นไป">*</button>
+            <button class="btn sm mono" type="button" data-ins="+" title="1 ครั้งขึ้นไป">+</button>
+            <button class="btn sm mono" type="button" data-ins="?" title="0 หรือ 1 ครั้ง">?</button>
+            <button class="btn sm mono" type="button" data-ins="{2,4}" title="จำนวนครั้ง">{n,m}</button>
+            <button class="btn sm mono" type="button" data-ins="|" title="หรือ">|</button>
+          </div>
+        </div>
+
+        <div class="notice err" id="rxErr" hidden></div>
+        <div class="notice warn" id="rxWarn" hidden></div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-head row between"><h2>ข้อความทดสอบ</h2><span class="muted" id="rxTextInfo"></span></div>
+            <textarea id="rxText" rows="12" spellcheck="false" class="mono"></textarea>
+          </div>
+          <div class="card">
+            <div class="card-head row between"><h2>ผลลัพธ์ที่ไฮไลต์</h2><span class="pill" id="rxCount">0 match</span></div>
+            <pre class="dump rx-out" id="rxOut"></pre>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row wrap gap">
+            <label class="chk"><input type="checkbox" id="rxReplaceOn"> โหมดแทนที่ (Replace)</label>
+            <input id="rxReplace" class="mono grow" placeholder="ข้อความแทนที่ เช่น &#36;2-&#36;1 หรือ &#36;&lt;name&gt;" autocomplete="off" spellcheck="false" disabled>
+            <button class="btn sm" type="button" data-copy="#rxReplaced">คัดลอกผลลัพธ์</button>
+          </div>
+          <pre class="dump" id="rxReplaced" hidden></pre>
+        </div>
+
+        <div class="card">
+          <h2>รายการที่ match</h2>
+          <div class="rx-table-wrap">
+            <table class="tbl" id="rxTable"></table>
+          </div>
+          <p class="muted" id="rxTableNote">ยังไม่มีผลลัพธ์</p>
+        </div>
+      </section>

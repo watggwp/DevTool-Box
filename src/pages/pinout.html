@@ -1,0 +1,34 @@
+      <section class="tool">
+        <h1>Board Pinout</h1>
+        <p class="hint">ผังขาบอร์ดยอดนิยม พร้อมฟังก์ชัน (ADC, I2C, SPI, UART, PWM) และข้อควรระวัง เช่น strapping pin, ขาที่เป็น input อย่างเดียว และขาที่ต่อกับ flash</p>
+
+        <div class="card">
+          <div class="board-tabs" id="boardTabs" role="tablist" aria-label="เลือกบอร์ด"></div>
+          <p class="muted board-desc" id="boardDesc"></p>
+          <div class="row wrap gap pin-filters" id="pinFilters" role="group" aria-label="กรองตามฟังก์ชัน">
+            <span class="muted">กรอง:</span>
+          </div>
+          <div class="row wrap gap">
+            <input id="pinSearch" class="grow" type="search" placeholder="ค้นหา เช่น GPIO21, SDA, ADC1" autocomplete="off" aria-label="ค้นหาขา">
+            <span class="muted" id="pinCount"></span>
+          </div>
+        </div>
+
+        <div class="card pin-legend">
+          <span><i class="lv lv-ok"></i>ใช้งานทั่วไปได้</span>
+          <span><i class="lv lv-warn"></i>ใช้ได้แต่มีเงื่อนไข</span>
+          <span><i class="lv lv-danger"></i>หลีกเลี่ยง / ระวังมาก</span>
+          <span><i class="lv lv-power"></i>ไฟเลี้ยง / ควบคุม</span>
+        </div>
+
+        <div class="card pin-table-card">
+          <table class="tbl pin-tbl">
+            <thead><tr><th>ขา</th><th>GPIO</th><th>ฟังก์ชัน</th><th>หมายเหตุ</th></tr></thead>
+            <tbody id="pinBody"></tbody>
+          </table>
+        </div>
+
+        <div class="card" id="boardNotes"></div>
+
+        <p class="notice warn">ข้อมูลนี้สรุปจากเอกสารผู้ผลิตและบอร์ดรุ่นที่พบบ่อย บอร์ดแต่ละยี่ห้ออาจเรียงขาหรือต่อ LED / ปุ่มต่างกัน ควรตรวจสอบกับ datasheet และ schematic ของบอร์ดที่ใช้จริงก่อนต่อวงจร</p>
+      </section>

@@ -1,0 +1,5 @@
+#stTbl td, #stTbl th { word-break: normal; white-space: nowrap; }
+#stTbl td:nth-child(4) { white-space: normal; min-width: 16ch; max-width: 36ch; }
+#stTbl td:last-child { white-space: normal; word-break: break-word; width: 100%; }
+#stTbl tr.muted td { color: var(--muted); }
+.tool-struct .two-col .card { margin-bottom: 0; }

@@ -1,0 +1,13 @@
+.mb-frame { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 0 4px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.mb-frame code { font-size: 16px; font-weight: 600; color: var(--text); word-break: break-all; }
+.mb-frame code:empty::after { content: "-"; color: var(--muted); }
+.mb-bits { display: flex; flex-wrap: wrap; gap: 6px; }
+.mb-bit { display: inline-flex; flex-direction: column; align-items: center; min-width: 44px; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); font: 11px var(--mono); color: var(--muted); }
+.mb-bit b { font-size: 14px; color: var(--text); }
+.mb-bit.on { background: var(--ok-soft); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.mb-bit.on b { color: var(--ok); }
+.pill.bad { background: var(--danger-soft); color: var(--danger); border-color: color-mix(in srgb, var(--danger) 40%, transparent); }
+.pill.good { background: var(--ok-soft); color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+#mbFields td, #mbFields th, #mbBuildTbl td, #mbBuildTbl th, #mbRegs td, #mbPairs td { word-break: normal; white-space: nowrap; }
+#mbFields td:nth-child(3), #mbBuildTbl td:nth-child(2) { white-space: normal; min-width: 8ch; max-width: 40ch; }
+#mbFields td:last-child, #mbBuildTbl td:last-child { white-space: normal; width: 100%; }

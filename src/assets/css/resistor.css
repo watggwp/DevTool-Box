@@ -1,0 +1,16 @@
+.seg { display: flex; gap: 14px; }
+.res-draw { margin: 14px auto 6px; max-width: 520px; }
+.res-draw svg { width: 100%; height: auto; display: block; }
+.band-selects { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 10px 0 14px; }
+.band-selects label { position: relative; }
+.band-selects select { width: 100%; padding-left: 30px; }
+.band-dot { position: absolute; left: 10px; bottom: 11px; width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--border-strong); z-index: 1; pointer-events: none; }
+.res-result { padding: 12px 14px; border-radius: var(--radius-sm); background: var(--accent-soft); }
+.res-value { font: 700 26px var(--mono); color: var(--accent); }
+.res-value span { font-size: 16px; color: var(--text-2); }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 8px; }
+.grid2 input, .grid2 select { width: 100%; }
+.cchip { display: inline-flex; align-items: center; gap: 4px; margin: 1px 6px 1px 0; font-size: 12.5px; white-space: nowrap; }
+.cchip i { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--border-strong); display: inline-block; }
+.err-text { color: var(--danger); }
+@media (max-width: 560px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }

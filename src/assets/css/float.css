@@ -1,0 +1,11 @@
+.f-bits-wrap { margin-top: 12px; }
+.f-bits-title { font-size: 13px; font-weight: 600; margin: 10px 0 4px; color: var(--text-2); }
+.f-bits { display: flex; flex-wrap: wrap; gap: 2px; font: 12px/1 var(--mono); }
+.f-bits span { display: inline-grid; place-items: center; width: 18px; height: 24px; border-radius: 3px; }
+.f-bits-64 span { width: 13px; height: 22px; font-size: 11px; }
+.f-bits .gap { width: 6px; background: none !important; }
+.f-s, .f-bits .s { background: light-dark(#fde2e2, #3d1c1f); color: light-dark(#b91c1c, #ff9b94); }
+.f-e, .f-bits .e { background: light-dark(#dbeafe, #172a46); color: light-dark(#1d4ed8, #79b8ff); }
+.f-m, .f-bits .m { background: light-dark(#dcfce7, #13301f); color: light-dark(#15803d, #56d364); }
+.f-legend { display: flex; gap: 8px; margin-top: 10px; font-size: 12px; }
+.f-legend span { padding: 2px 8px; border-radius: 4px; }

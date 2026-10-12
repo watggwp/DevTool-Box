@@ -1,0 +1,11 @@
+.qr-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.qr-preview-card { display: flex; flex-direction: column; align-items: center; }
+.qr-preview {
+  width: 100%; display: grid; place-items: center; padding: 16px; min-height: 240px;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.qr-preview canvas { max-width: 100%; height: auto; image-rendering: pixelated; display: block; }
+.qr-info { text-align: center; margin: 10px 0 0; }
+.qr-actions { justify-content: center; }
+#wifiPayload { word-break: break-all; }
+.qr-layout input[type=color] { width: 46px; height: 34px; padding: 3px; cursor: pointer; }

@@ -59,15 +59,16 @@ function footer() {
   </footer>`;
 }
 
-function render({ title, desc, bar, body, script, bodyClass }) {
+function render({ title, desc, bar, body, script, bodyClass, extraHead = "" }) {
   return layout
-    .replace("{{TITLE}}", esc(title))
-    .replace("{{DESC}}", esc(desc))
-    .replace("{{BODYCLASS}}", bodyClass)
-    .replace("{{BAR}}", bar)
-    .replace("{{BODY}}", body)
-    .replace("{{FOOTER}}", footer())
-    .replace("{{SCRIPT}}", script);
+    .replace("{{EXTRA_HEAD}}", () => extraHead)
+    .replace("{{TITLE}}", () => esc(title))
+    .replace("{{DESC}}", () => esc(desc))
+    .replace("{{BODYCLASS}}", () => bodyClass)
+    .replace("{{BAR}}", () => bar)
+    .replace("{{BODY}}", () => body)
+    .replace("{{FOOTER}}", () => footer())
+    .replace("{{SCRIPT}}", () => script);
 }
 
 // Turn the fragment's leading <h1> + <p class="hint"> into a page header with the tool icon.
@@ -75,7 +76,7 @@ function withPageHead(frag, tool) {
   const re = /<h1>([\s\S]*?)<\/h1>\s*(?:<p class="hint">([\s\S]*?)<\/p>)?/;
   const m = frag.match(re);
   if (!m) return frag;
-  return frag.replace(re, `<div class="page-head">
+  return frag.replace(re, () => `<div class="page-head">
           <span class="big-ico" aria-hidden="true">${esc(tool.ico)}</span>
           <div>
             <h1>${m[1]}</h1>
@@ -97,6 +98,7 @@ cpSync(src("assets"), path.join(DIST, "assets"), { recursive: true });
 
 // ---------- tool pages: each one stands alone at /<slug>/ ----------
 let count = 0;
+const built = [];
 for (const t of tools) {
   if (!existsSync(src(`pages/${t.slug}.html`))) { console.warn(`skip ${t.slug}: no src/pages/${t.slug}.html`); continue; }
   const hasJs = existsSync(src(`assets/js/${t.slug}.js`));
@@ -108,14 +110,17 @@ for (const t of tools) {
     // tool scripts import common.js themselves, so only one script tag is needed
     script: hasJs ? `/assets/js/${t.slug}.js` : "/assets/js/common.js",
     bodyClass: `page-tool tool-${t.slug}`,
+    // optional per-tool stylesheet: src/assets/css/<slug>.css
+    extraHead: existsSync(src(`assets/css/${t.slug}.css`)) ? `  <link rel="stylesheet" href="/assets/css/${t.slug}.css">` : "",
   }));
   count++;
+  built.push(t);
 }
 
 // ---------- home page ----------
 const groupsHtml = site.groups
   .map((g) => {
-    const items = tools.filter((t) => t.group === g.id);
+    const items = built.filter((t) => t.group === g.id);
     if (!items.length) return "";
     const cards = items
       .map((t) => `            <a class="tool-card" href="/${t.slug}/" data-search="${esc((t.name + " " + t.desc + " " + (t.keywords ?? "")).toLowerCase())}">
@@ -134,7 +139,7 @@ ${cards}
   .join("\n");
 
 const homeBody = `      <section class="hero">
-        <span class="hero-badge">${tools.length} เครื่องมือ <span class="dot" aria-hidden="true"></span> ฟรี <span class="dot" aria-hidden="true"></span> ไม่ต้องติดตั้ง</span>
+        <span class="hero-badge">${built.length} เครื่องมือ <span class="dot" aria-hidden="true"></span> ฟรี <span class="dot" aria-hidden="true"></span> ไม่ต้องติดตั้ง</span>
         <h1>${esc(site.name)}</h1>
         <p>${esc(site.tagline)}</p>
         <label class="search">

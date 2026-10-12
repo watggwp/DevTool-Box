@@ -1,0 +1,25 @@
+.color-top { display: flex; gap: 16px; align-items: stretch; margin-bottom: 14px; }
+#cPicker { width: 96px; height: 96px; padding: 0; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: none; cursor: pointer; flex: none; }
+#cPicker::-webkit-color-swatch-wrapper { padding: 4px; }
+#cPicker::-webkit-color-swatch { border: 0; border-radius: 5px; }
+.color-swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-width: 0; }
+.swatch-box { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.swatch { flex: 1; min-height: 64px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+.color-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.color-fields input, .grid3 input { width: 100%; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.grid3 input[type=number] { width: 100%; }
+.contrast-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.contrast { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+.contrast strong { font-size: 20px; }
+.contrast span { font-size: 12.5px; font-weight: 600; }
+.tft-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+.tft-chip {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px; cursor: pointer; text-align: left;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font: inherit;
+}
+.tft-chip:hover { border-color: var(--accent); }
+.tft-dot { width: 20px; height: 20px; border-radius: 5px; border: 1px solid var(--border-strong); flex: none; }
+.tft-name { font-size: 12.5px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tft-val { font: 11.5px var(--mono); color: var(--muted); }
+@media (max-width: 560px) { .color-top { flex-direction: column; } #cPicker { width: 100%; height: 56px; } }

@@ -1,0 +1,85 @@
+      <section class="tool">
+        <h1>Modbus RTU <small>Frame builder / decoder</small></h1>
+        <p class="hint">ประกอบคำสั่ง Modbus RTU พร้อม CRC16 อัตโนมัติ และถอด frame ที่ได้จากอุปกรณ์ เอา frame ไปส่งได้ที่หน้า Serial Monitor โดยติ๊ก "HEX"</p>
+
+        <div class="card">
+          <h2>สร้างคำสั่ง (Request)</h2>
+          <div class="row wrap gap">
+            <label>Slave ID <input id="mbSlave" type="number" min="0" max="247" value="1"></label>
+            <label>Function
+              <select id="mbFc">
+                <option value="3" selected>03 Read Holding Registers</option>
+                <option value="4">04 Read Input Registers</option>
+                <option value="1">01 Read Coils</option>
+                <option value="2">02 Read Discrete Inputs</option>
+                <option value="5">05 Write Single Coil</option>
+                <option value="6">06 Write Single Register</option>
+                <option value="15">0F Write Multiple Coils</option>
+                <option value="16">10 Write Multiple Registers</option>
+              </select>
+            </label>
+            <label>Start address <input id="mbAddr" class="mono" value="0" size="8" title="ใส่เลขฐาน 10 หรือ 0x แบบ hex"></label>
+            <label id="mbQtyWrap">จำนวน <input id="mbQty" type="number" min="1" max="2000" value="10"></label>
+          </div>
+          <div id="mbValuesWrap" hidden>
+            <label class="field-label" for="mbValues">ค่าที่จะเขียน <span class="muted" id="mbValuesHint"></span></label>
+            <input id="mbValues" class="mono wide" autocomplete="off">
+          </div>
+          <p class="muted">Address เป็นแบบ 0-based ถ้าเอกสารอุปกรณ์เขียนว่า 40001 ให้ใส่ 0 และถ้าเขียน 40010 ให้ใส่ 9</p>
+          <div class="mb-frame">
+            <code class="mono" id="mbFrame"></code>
+            <div class="row gap wrap">
+              <button class="btn primary sm" type="button" data-copy="#mbFrame">คัดลอก frame</button>
+              <button class="btn sm" type="button" id="mbToDecoder">ส่งไปถอดด้านล่าง</button>
+            </div>
+          </div>
+          <table class="tbl" id="mbBuildTbl"></table>
+          <div class="notice err" id="mbBuildErr" hidden></div>
+        </div>
+
+        <div class="card">
+          <h2>ถอด frame (Decoder)</h2>
+          <label class="field-label" for="mbIn">Frame (hex รวม CRC 2 ไบต์ท้าย)</label>
+          <textarea id="mbIn" rows="3" spellcheck="false" class="mono" placeholder="01 03 04 41 C8 00 00 ..."></textarea>
+          <div class="row wrap gap">
+            <label>ชนิด
+              <select id="mbKind">
+                <option value="auto">ตรวจอัตโนมัติ</option>
+                <option value="request">Request (master ส่งไป)</option>
+                <option value="response">Response (อุปกรณ์ตอบกลับ)</option>
+              </select>
+            </label>
+            <span class="spacer"></span>
+            <span class="muted">ตัวอย่าง:</span>
+            <button class="btn sm" type="button" data-example="req">Request</button>
+            <button class="btn sm" type="button" data-example="resp">Response</button>
+            <button class="btn sm" type="button" data-example="exc">Exception</button>
+            <button class="btn ghost sm" type="button" data-clear="#mbIn">ล้าง</button>
+          </div>
+          <div class="row wrap gap" id="mbStatus"></div>
+          <table class="tbl" id="mbFields"></table>
+          <div class="notice warn" id="mbWarn" hidden></div>
+          <div class="notice err" id="mbErr" hidden></div>
+        </div>
+
+        <div class="card" id="mbRegsCard" hidden>
+          <div class="row between wrap">
+            <h2>Registers</h2>
+            <label>รวม 2 register เป็น 32-bit
+              <select id="mbOrder">
+                <option value="ABCD">ABCD (high word ก่อน)</option>
+                <option value="CDAB">CDAB (low word ก่อน)</option>
+              </select>
+            </label>
+          </div>
+          <div class="two-col">
+            <div><table class="tbl" id="mbRegs"></table></div>
+            <div><table class="tbl" id="mbPairs"></table></div>
+          </div>
+        </div>
+
+        <div class="card" id="mbBitsCard" hidden>
+          <h2>Coil / Input status</h2>
+          <div class="mb-bits" id="mbBits"></div>
+        </div>
+      </section>

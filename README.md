@@ -2,18 +2,30 @@
 
 เว็บรวมเครื่องมือนักพัฒนาและงาน embedded หน้าหลักแสดงเครื่องมือทั้งหมดแบ่งตามหมวด กดเข้าไปแต่ละเครื่องมือเป็นหน้าแยกของตัวเอง มีปุ่ม "หน้าหลัก" ด้านบนและ footer เครดิตผู้พัฒนาทุกหน้า ทุกเครื่องมือทำงานในเบราว์เซอร์ ไม่ส่งข้อมูลขึ้นเซิร์ฟเวอร์
 
-| URL | เครื่องมือ |
-|---|---|
-| `/serial/` | Serial Monitor (Web Serial API) สำหรับ Arduino / ESP32 / STM32 |
-| `/hex/` | Hex <-> Text และ hex dump |
-| `/hash/` | MD5, SHA-1/256/384/512, CRC32, CRC16 Modbus, XOR / SUM checksum |
-| `/base/` | แปลงเลขฐาน 2 / 8 / 10 / 16 |
-| `/base64/` | Base64 encode / decode (UTF-8, URL-safe, ไฟล์) |
-| `/url/` | URL encode / decode และแยก query parameters |
-| `/jwt/` | JWT decoder |
-| `/json/` | JSON format / minify / validate / sort keys / escape |
-| `/time/` | Unix timestamp <-> date |
-| `/uuid/` | UUID v4, random bytes, password |
+| หมวด | URL | เครื่องมือ |
+|---|---|---|
+| Firmware / Serial | `/serial/` | **Serial Monitor**: ดูและส่งข้อมูลพอร์ต COM ของ Arduino / ESP32 / STM32 ผ่าน USB |
+| Firmware / Serial | `/plotter/` | **Serial Plotter**: วาดกราฟเรียลไทม์จากค่าที่บอร์ดส่งผ่าน Serial แบบ Arduino Plotter |
+| Firmware / Serial | `/flash/` | **Firmware Flasher**: อัปโหลดไฟล์ .bin ลง ESP32 / ESP8266 ผ่านเบราว์เซอร์ และช่วยเข้า bootloader ของ Pico / UF2 |
+| Protocol / Bytes | `/modbus/` | **Modbus RTU**: ประกอบและถอด frame Modbus RTU พร้อมคำนวณ CRC16 อัตโนมัติ |
+| Protocol / Bytes | `/float/` | **Float / IEEE 754**: แปลง float / double กับ hex พร้อมเลือก endian และดูบิต |
+| Protocol / Bytes | `/struct/` | **Struct Parser**: แยกค่าจาก hex bytes ตามรูปแบบ uint8/16/32, int, float, endian |
+| Protocol / Bytes | `/hex/` | **Hex / Text**: แปลงข้อความเป็น hex bytes และดู hex dump |
+| Protocol / Bytes | `/hash/` | **Hash / CRC**: MD5, SHA, CRC32, CRC16 Modbus, XOR / SUM checksum |
+| Protocol / Bytes | `/base/` | **Number Base**: แปลงเลขฐาน 2 / 8 / 10 / 16 พร้อม bit และ signed |
+| Electronics | `/resistor/` | **Resistor / LED**: อ่านแถบสีตัวต้านทาน และคำนวณตัวต้านทานสำหรับ LED / voltage divider |
+| Electronics | `/pinout/` | **Board Pinout**: ผังขา ESP32, ESP8266, Arduino Uno / Nano, Raspberry Pi Pico พร้อมข้อควรระวัง |
+| Electronics | `/color/` | **Color / RGB565**: แปลงสี HEX, RGB, HSL และ RGB565 / RGB888 สำหรับจอ TFT |
+| Encode / Decode | `/base64/` | **Base64**: เข้ารหัส / ถอดรหัส Base64 รองรับภาษาไทย URL-safe และไฟล์ |
+| Encode / Decode | `/url/` | **URL Encode**: percent-encoding และแยกส่วนประกอบ URL / query |
+| Encode / Decode | `/jwt/` | **JWT Decoder**: ถอด header / payload ของ JSON Web Token |
+| Text / Data / Time | `/json/` | **JSON**: จัดรูปแบบ ย่อ ตรวจสอบ เรียงคีย์ และ escape JSON |
+| Text / Data / Time | `/regex/` | **Regex Tester**: ทดสอบ regular expression ไฮไลต์ผลลัพธ์และ capture group |
+| Text / Data / Time | `/diff/` | **Text Diff**: เปรียบเทียบข้อความหรือ config สองชุด แสดงบรรทัดที่เพิ่ม / ลบ |
+| Text / Data / Time | `/cron/` | **Cron Expression**: อธิบาย cron เป็นภาษาไทย และแสดงเวลาที่จะรันครั้งถัดไป |
+| Text / Data / Time | `/time/` | **Timestamp**: Unix epoch ↔ วันที่เวลา (local / UTC / ISO) |
+| Generators | `/uuid/` | **UUID / Random**: สร้าง UUID v4, random bytes และ password |
+| Generators | `/qr/` | **QR Code**: สร้าง QR code จากข้อความ URL หรือ Wi-Fi ดาวน์โหลดเป็น PNG / SVG |
 
 ## รันในเครื่อง
 
@@ -59,6 +71,13 @@ server.js          static server ขนาดเล็ก ใช้แค่ Nod
    - Publish directory: `dist`
 
 ถ้าต้องการรันเป็น Web Service แทน ใช้ build `npm run build` และ start `npm start` (server ใช้ RAM ราว 40-50 MB)
+
+## Firmware Flasher
+
+- ใช้ [esptool-js](https://github.com/espressif/esptool-js) 0.6.1 ของ Espressif (Apache-2.0) เก็บไว้ที่ `src/assets/vendor/` และโหลดเฉพาะตอนกดเชื่อมต่อในหน้า `/flash/`
+- รองรับ ESP32, ESP32-S2, S3, C2, C3, C5, C6, H2, P4 และ ESP8266 ตรวจสอบ MD5 หลังเขียนทุกไฟล์
+- บอร์ด UF2 (Raspberry Pi Pico, Leonardo) ใช้ปุ่ม 1200 baud touch เข้า bootloader แล้วลากไฟล์ .uf2 ลงไดรฟ์
+- ยังไม่รองรับ Arduino AVR (Uno/Nano) และ STM32
 
 ## หมายเหตุ Web Serial
 

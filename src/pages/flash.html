@@ -1,0 +1,128 @@
+      <section class="tool">
+        <h1>Firmware Flasher <small>ESP32 / ESP8266 / UF2</small></h1>
+        <p class="hint">อัปโหลดไฟล์ .bin ลงบอร์ด ESP32, ESP32-S2/S3/C3/C6/H2 และ ESP8266 ผ่าน USB จากเบราว์เซอร์โดยตรง ไม่ต้องติดตั้ง Python หรือ esptool ใช้ได้บน Chrome / Edge</p>
+        <div class="notice warn" id="flashUnsupported" hidden>
+          เบราว์เซอร์นี้ไม่รองรับ Web Serial API กรุณาใช้ Google Chrome หรือ Microsoft Edge บนคอมพิวเตอร์ และเปิดผ่าน HTTPS หรือ localhost
+        </div>
+
+        <div class="flash-steps" aria-hidden="true">
+          <span class="fs-step" data-step="1"><b>1</b>เชื่อมต่อบอร์ด</span>
+          <span class="fs-line"></span>
+          <span class="fs-step" data-step="2"><b>2</b>เลือกไฟล์ .bin</span>
+          <span class="fs-line"></span>
+          <span class="fs-step" data-step="3"><b>3</b>อัปโหลด</span>
+        </div>
+
+        <!-- ===== Step 1: connect ===== -->
+        <div class="card">
+          <h2>1. เชื่อมต่อบอร์ด ESP</h2>
+          <div class="row wrap gap">
+            <label>Baud rate ขณะอัปโหลด
+              <select id="flashBaud">
+                <option value="115200">115200 (ช้า เสถียรสุด)</option>
+                <option value="230400">230400</option>
+                <option value="460800">460800</option>
+                <option value="921600" selected>921600 (เร็ว แนะนำ)</option>
+              </select>
+            </label>
+            <span class="spacer"></span>
+            <button class="btn primary" id="flashConnect" type="button">เชื่อมต่อ</button>
+            <button class="btn danger" id="flashDisconnect" type="button" disabled>ตัดการเชื่อมต่อ</button>
+          </div>
+          <div class="row wrap gap small">
+            <span class="status" id="flashStatus">ยังไม่ได้เชื่อมต่อ</span>
+            <span class="pill" id="flashChip" hidden></span>
+            <span class="pill" id="flashMac" hidden></span>
+            <span class="pill" id="flashSizePill" hidden></span>
+          </div>
+          <p class="muted">ถ้าเชื่อมต่อไม่ได้ ให้กดปุ่ม <b>BOOT</b> ค้างไว้ แล้วกด <b>EN / RST</b> หนึ่งครั้ง ปล่อย BOOT แล้วกดเชื่อมต่อใหม่</p>
+        </div>
+
+        <!-- ===== Step 2: files ===== -->
+        <div class="card">
+          <div class="card-head">
+            <h2>2. ไฟล์เฟิร์มแวร์และตำแหน่ง (address)</h2>
+            <label>รูปแบบสำเร็จรูป
+              <select id="flashPreset">
+                <option value="app">ไฟล์ app อย่างเดียว (0x10000)</option>
+                <option value="merged">ไฟล์รวม merged / factory (0x0)</option>
+                <option value="arduino">Arduino / PlatformIO 4 ไฟล์</option>
+                <option value="esp8266">ESP8266 (0x0)</option>
+                <option value="custom">กำหนดเอง</option>
+              </select>
+            </label>
+          </div>
+          <div id="flashFiles" class="flash-files"></div>
+          <div class="row wrap gap">
+            <button class="btn sm" id="flashAddRow" type="button">+ เพิ่มไฟล์</button>
+            <span class="muted" id="flashOffsetHint"></span>
+          </div>
+          <details class="help inner">
+            <summary>หาไฟล์ .bin ได้จากไหน และควรใส่ address อะไร</summary>
+            <div class="body">
+              <ul>
+                <li><b>Arduino IDE:</b> เมนู Sketch แล้วเลือก Export Compiled Binary ไฟล์จะอยู่ในโฟลเดอร์ build ของ sketch ไฟล์ที่ลงท้าย <code>.merged.bin</code> ใช้ address 0x0 ได้เลย</li>
+                <li><b>PlatformIO:</b> ไฟล์อยู่ที่ <code>.pio/build/&lt;env&gt;/firmware.bin</code> ใช้ address 0x10000 ส่วน bootloader.bin และ partitions.bin อยู่โฟลเดอร์เดียวกัน</li>
+                <li><b>ESP-IDF:</b> ดูคำสั่ง <code>idf.py flash</code> ที่พิมพ์ออกมา จะบอก address ของแต่ละไฟล์</li>
+                <li><b>Bootloader:</b> ESP32 และ ESP32-S2 อยู่ที่ 0x1000 ส่วน S3, C3, C6, H2 และ ESP8266 อยู่ที่ 0x0 หน้านี้จะตั้งค่าให้อัตโนมัติหลังเชื่อมต่อ</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <!-- ===== Step 3: program ===== -->
+        <div class="card">
+          <h2>3. อัปโหลด</h2>
+          <div class="row wrap gap">
+            <label class="chk"><input type="checkbox" id="flashEraseAll"> ลบ flash ทั้งหมดก่อนเขียน</label>
+            <label>Flash mode
+              <select id="flashMode"><option value="keep" selected>keep</option><option value="dio">dio</option><option value="qio">qio</option><option value="dout">dout</option></select>
+            </label>
+            <label>Flash size
+              <select id="flashSize"><option value="keep" selected>keep</option><option value="detect">detect</option><option>2MB</option><option>4MB</option><option>8MB</option><option>16MB</option></select>
+            </label>
+            <span class="spacer"></span>
+            <button class="btn" id="flashErase" type="button" disabled>ลบ flash ทั้งหมด</button>
+            <button class="btn" id="flashReset" type="button" disabled>รีเซ็ตบอร์ด</button>
+            <button class="btn primary" id="flashProgram" type="button" disabled>อัปโหลดเฟิร์มแวร์</button>
+          </div>
+          <div class="progress" id="flashProgress" hidden>
+            <div class="progress-bar"><span id="flashBar"></span></div>
+            <span class="mono" id="flashPct">0%</span>
+          </div>
+        </div>
+
+        <div class="card term-wrap">
+          <div class="term-head">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span>esptool log</span>
+            <span class="spacer"></span>
+            <button class="btn ghost sm" id="flashLogClear" type="button">ล้าง</button>
+          </div>
+          <pre class="terminal flash-log" id="flashLog" tabindex="0" aria-label="Flasher log"></pre>
+        </div>
+
+        <!-- ===== Other boards ===== -->
+        <div class="two-col">
+          <div class="card">
+            <h2>Raspberry Pi Pico / UF2</h2>
+            <p class="muted" style="margin-top:0">บอร์ด RP2040, RP2350, Arduino Leonardo / Micro และบอร์ด UF2 อื่น ๆ อัปโหลดด้วยการลากไฟล์ .uf2 ลงไดรฟ์ ไม่ต้องใช้ serial</p>
+            <ol class="steps-list">
+              <li>กด <b>เข้าโหมด bootloader</b> แล้วเลือกพอร์ตของบอร์ด (ใช้ได้กับบอร์ดที่รันโปรแกรมจาก Arduino core อยู่) หรือถอดสาย USB แล้วกดปุ่ม <b>BOOTSEL</b> ค้างไว้ขณะเสียบกลับ</li>
+              <li>จะมีไดรฟ์ชื่อ <b>RPI-RP2</b> หรือ <b>RP2350</b> ขึ้นมาใน File Explorer</li>
+              <li>ลากไฟล์ <code>.uf2</code> ไปวางในไดรฟ์ บอร์ดจะรีบูตและรันโปรแกรมใหม่เอง</li>
+            </ol>
+            <button class="btn" id="uf2Touch" type="button">เข้าโหมด bootloader (1200 baud touch)</button>
+            <p class="muted" id="uf2Status"></p>
+          </div>
+          <div class="card">
+            <h2>บอร์ดอื่น ๆ</h2>
+            <table class="tbl">
+              <tr><th>Arduino Uno / Nano (AVR)</th><td>ยังไม่รองรับในเว็บนี้ ใช้ Arduino IDE หรือ avrdude กับไฟล์ .hex</td></tr>
+              <tr><th>STM32</th><td>ยังไม่รองรับ ใช้ STM32CubeProgrammer ผ่าน ST-Link หรือ USB DFU</td></tr>
+              <tr><th>nRF52 (Adafruit)</th><td>บอร์ดส่วนใหญ่มี UF2 bootloader กดปุ่ม reset สองครั้งเร็ว ๆ แล้วลากไฟล์ .uf2 ได้เลย</td></tr>
+              <tr><th>ไม่เห็นพอร์ต COM</th><td>ติดตั้ง driver CP210x / CH340 ก่อน ดูรายละเอียดในหน้า <a href="/serial/">Serial Monitor</a></td></tr>
+            </table>
+          </div>
+        </div>
+      </section>

@@ -1,0 +1,92 @@
+      <section class="tool">
+        <h1>Cron Expression</h1>
+        <p class="hint">อธิบาย cron เป็นภาษาไทย ตรวจสอบความถูกต้อง และแสดงเวลาที่จะรันครั้งถัดไปตามเวลาเครื่องของคุณ รองรับ 5 ฟิลด์มาตรฐาน, 6 ฟิลด์ (มีวินาที) และ macro เช่น @daily</p>
+
+        <div class="card">
+          <h2>Cron expression</h2>
+          <input id="cronIn" class="mono cron-input" value="*/15 9-17 * * MON-FRI" autocomplete="off" spellcheck="false" aria-label="Cron expression">
+          <div class="cron-legend mono" aria-hidden="true">
+            <span>นาที</span><span>ชั่วโมง</span><span>วันที่</span><span>เดือน</span><span>วันในสัปดาห์</span>
+          </div>
+          <div class="cron-explain" id="cronExplain"></div>
+          <div class="row wrap gap small">
+            <span class="muted">ตัวอย่าง:</span>
+            <button class="btn sm mono" type="button" data-cron="* * * * *">* * * * *</button>
+            <button class="btn sm mono" type="button" data-cron="*/5 * * * *">*/5 * * * *</button>
+            <button class="btn sm mono" type="button" data-cron="0 * * * *">0 * * * *</button>
+            <button class="btn sm mono" type="button" data-cron="0 0 * * *">0 0 * * *</button>
+            <button class="btn sm mono" type="button" data-cron="30 8 * * 1-5">30 8 * * 1-5</button>
+            <button class="btn sm mono" type="button" data-cron="0 0 1 * *">0 0 1 * *</button>
+            <button class="btn sm mono" type="button" data-cron="0 2 * * SUN">0 2 * * SUN</button>
+            <button class="btn sm mono" type="button" data-cron="0 12 13 * 5">0 12 13 * 5</button>
+            <button class="btn sm mono" type="button" data-cron="@hourly">@hourly</button>
+            <span class="spacer"></span>
+            <button class="btn sm" type="button" data-copy="#cronIn">คัดลอก</button>
+          </div>
+        </div>
+
+        <div class="notice err" id="cronErr" hidden></div>
+
+        <div class="card">
+          <h2>สร้างจากตัวเลือก</h2>
+          <div class="row wrap gap">
+            <label>ความถี่
+              <select id="bFreq">
+                <option value="minutes">ทุก N นาที</option>
+                <option value="hourly">ทุกชั่วโมง</option>
+                <option value="daily" selected>ทุกวัน</option>
+                <option value="weekdays">วันทำการ (จันทร์-ศุกร์)</option>
+                <option value="weekly">ทุกสัปดาห์</option>
+                <option value="monthly">ทุกเดือน</option>
+                <option value="yearly">ทุกปี</option>
+              </select>
+            </label>
+            <label data-b="minutes">ทุก <input id="bEvery" type="number" min="1" max="59" value="10"> นาที</label>
+            <label data-b="hourly">นาทีที่ <input id="bMinute" type="number" min="0" max="59" value="0"></label>
+            <label data-b="daily weekdays weekly monthly yearly">เวลา <input id="bTime" type="time" value="08:00"></label>
+            <label data-b="weekly">วัน
+              <select id="bDow">
+                <option value="1">จันทร์</option><option value="2">อังคาร</option><option value="3">พุธ</option>
+                <option value="4">พฤหัสบดี</option><option value="5">ศุกร์</option><option value="6">เสาร์</option><option value="0">อาทิตย์</option>
+              </select>
+            </label>
+            <label data-b="monthly yearly">วันที่ <input id="bDom" type="number" min="1" max="31" value="1"></label>
+            <label data-b="yearly">เดือน
+              <select id="bMonth">
+                <option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option>
+                <option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option>
+                <option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option>
+              </select>
+            </label>
+            <span class="spacer"></span>
+            <button class="btn primary" type="button" id="bApply">ใช้ค่านี้</button>
+          </div>
+          <p class="muted">ผลลัพธ์: <span class="mono" id="bPreview"></span></p>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="row between"><h2>เวลารันครั้งถัดไป</h2><span class="muted" id="cronTz"></span></div>
+            <table class="tbl" id="cronNext"></table>
+          </div>
+          <div class="card">
+            <h2>รายละเอียดแต่ละฟิลด์</h2>
+            <table class="tbl" id="cronFields"></table>
+            <details class="help cron-syntax">
+              <summary>สัญลักษณ์ที่ใช้ได้</summary>
+              <div class="body">
+                <table class="tbl">
+                  <tr><th class="mono">*</th><td>ทุกค่า</td></tr>
+                  <tr><th class="mono">,</th><td>หลายค่า เช่น <span class="mono">1,15,30</span></td></tr>
+                  <tr><th class="mono">-</th><td>ช่วง เช่น <span class="mono">9-17</span></td></tr>
+                  <tr><th class="mono">/</th><td>ทุก ๆ เช่น <span class="mono">*/10</span> หรือ <span class="mono">0-30/5</span></td></tr>
+                  <tr><th class="mono">JAN-DEC</th><td>ชื่อเดือน (ฟิลด์เดือน)</td></tr>
+                  <tr><th class="mono">SUN-SAT</th><td>ชื่อวัน (0 และ 7 = อาทิตย์)</td></tr>
+                  <tr><th class="mono">@daily</th><td>@yearly @monthly @weekly @daily @hourly @reboot</td></tr>
+                </table>
+                <p class="muted">ถ้ากำหนดทั้ง "วันที่" และ "วันในสัปดาห์" (ไม่ใช่ *) cron จะรันเมื่อตรงข้อใดข้อหนึ่ง ไม่ใช่ต้องตรงทั้งสองข้อ</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>

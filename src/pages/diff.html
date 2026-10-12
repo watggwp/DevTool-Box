@@ -1,0 +1,55 @@
+      <section class="tool">
+        <h1>Text Diff</h1>
+        <p class="hint">เปรียบเทียบข้อความ โค้ด หรือไฟล์ config สองชุด แสดงบรรทัดที่เพิ่ม ลบ และไฮไลต์ตัวอักษรที่เปลี่ยนในบรรทัด ใช้อัลกอริทึม Myers แบบเดียวกับ git diff</p>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="row between"><h2>ต้นฉบับ (Original)</h2><span class="muted" id="dfInfoA"></span></div>
+            <textarea id="dfA" rows="12" spellcheck="false" class="mono" placeholder="วางข้อความเดิมที่นี่"></textarea>
+            <div class="row gap wrap">
+              <input type="file" id="dfFileA" class="file-input">
+              <label for="dfFileA" class="btn sm">เปิดไฟล์</label>
+              <button class="btn ghost sm" type="button" data-clear="#dfA">ล้าง</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="row between"><h2>ฉบับแก้ไข (Changed)</h2><span class="muted" id="dfInfoB"></span></div>
+            <textarea id="dfB" rows="12" spellcheck="false" class="mono" placeholder="วางข้อความใหม่ที่นี่"></textarea>
+            <div class="row gap wrap">
+              <input type="file" id="dfFileB" class="file-input">
+              <label for="dfFileB" class="btn sm">เปิดไฟล์</label>
+              <button class="btn ghost sm" type="button" data-clear="#dfB">ล้าง</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row wrap gap">
+            <button class="btn primary" type="button" id="dfRun">เปรียบเทียบ</button>
+            <button class="btn" type="button" id="dfSwap" title="สลับซ้าย / ขวา">&#8646; สลับ</button>
+            <label>มุมมอง
+              <select id="dfView">
+                <option value="split">ซ้าย-ขวา (Side by side)</option>
+                <option value="unified">รวม (Unified)</option>
+              </select>
+            </label>
+            <label class="chk"><input type="checkbox" id="dfIgnoreWs"> ไม่สนช่องว่าง</label>
+            <label class="chk"><input type="checkbox" id="dfIgnoreCase"> ไม่สนตัวพิมพ์เล็ก/ใหญ่</label>
+            <label class="chk"><input type="checkbox" id="dfCollapse" checked> ซ่อนบรรทัดที่เหมือนกัน</label>
+            <span class="spacer"></span>
+            <button class="btn" type="button" id="dfCopy">คัดลอก unified diff</button>
+          </div>
+          <div class="row wrap gap small">
+            <span class="pill df-add" id="dfStatAdd">+0 เพิ่ม</span>
+            <span class="pill df-del" id="dfStatDel">-0 ลบ</span>
+            <span class="pill" id="dfStatSame">0 เหมือนเดิม</span>
+            <span class="muted" id="dfTime"></span>
+          </div>
+        </div>
+
+        <div class="notice warn" id="dfWarn" hidden></div>
+
+        <div class="card df-result-card">
+          <div class="df-scroll" id="dfOut"><p class="muted df-empty">ใส่ข้อความทั้งสองฝั่งแล้วกด "เปรียบเทียบ"</p></div>
+        </div>
+      </section>

@@ -1,0 +1,56 @@
+      <section class="tool">
+        <h1>Float / IEEE 754</h1>
+        <p class="hint">แปลงเลขทศนิยมกับ hex แบบ float32 และ float64 เลือกลำดับไบต์ได้ ดูบิต sign / exponent / mantissa และแปลงค่าจาก Modbus 2 register เป็น float</p>
+
+        <div class="card">
+          <h2>ทศนิยม &rarr; Hex</h2>
+          <div class="row wrap gap">
+            <input id="fDec" class="mono grow" value="25.5" placeholder="เช่น 3.14, -0.001, 1e-6, NaN, Inf" autocomplete="off" aria-label="ค่าทศนิยม">
+            <span class="muted">รองรับ NaN, Inf, -Inf</span>
+          </div>
+          <table class="tbl" id="fDecTbl"></table>
+          <div class="f-bits-wrap">
+            <div class="f-bits-title">float32 <span class="muted" id="fDecCls32"></span></div>
+            <div class="f-bits" id="fDecBits32"></div>
+            <div class="f-bits-title">float64 <span class="muted" id="fDecCls64"></span></div>
+            <div class="f-bits f-bits-64" id="fDecBits64"></div>
+            <div class="f-legend"><span class="f-s">sign</span><span class="f-e">exponent</span><span class="f-m">mantissa</span></div>
+          </div>
+          <div class="notice err" id="fDecErr" hidden></div>
+        </div>
+
+        <div class="card">
+          <h2>Hex &rarr; ทศนิยม</h2>
+          <div class="row wrap gap">
+            <input id="fHex" class="mono grow" value="41 CC 00 00" placeholder="4 ไบต์ (float32) หรือ 8 ไบต์ (float64)" autocomplete="off" aria-label="ค่า hex">
+            <label>ลำดับไบต์ที่ใส่
+              <select id="fHexOrder">
+                <option value="ABCD">Big-endian (ABCD)</option>
+                <option value="DCBA">Little-endian (DCBA)</option>
+                <option value="CDAB">Word swap (CDAB)</option>
+                <option value="BADC">Byte swap (BADC)</option>
+              </select>
+            </label>
+          </div>
+          <table class="tbl" id="fHexTbl"></table>
+          <div class="f-bits" id="fHexBits"></div>
+          <div class="notice err" id="fHexErr" hidden></div>
+        </div>
+
+        <div class="card">
+          <h2>Modbus 2 register &rarr; float32</h2>
+          <div class="row wrap gap">
+            <label>Register 1 <input id="fR1" class="mono" value="0x41C8" size="9"></label>
+            <label>Register 2 <input id="fR2" class="mono" value="0x0000" size="9"></label>
+            <label>ลำดับ
+              <select id="fROrder">
+                <option value="ABCD">ABCD (register 1 = high word)</option>
+                <option value="CDAB">CDAB (register 1 = low word)</option>
+              </select>
+            </label>
+          </div>
+          <p class="muted">ใส่เป็นเลขฐาน 10 (เช่น 16840) หรือ hex ขึ้นต้นด้วย 0x ถ้าค่าที่ได้ดูผิดปกติ ให้ลองสลับลำดับเป็น CDAB</p>
+          <table class="tbl" id="fRTbl"></table>
+          <div class="notice err" id="fRErr" hidden></div>
+        </div>
+      </section>

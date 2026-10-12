@@ -1,0 +1,45 @@
+/* Firmware Flasher page */
+.flash-steps { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; flex-wrap: wrap; }
+.fs-step { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--muted); }
+.fs-step b { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border-strong); font-size: 12.5px; }
+.fs-step.active { color: var(--accent); }
+.fs-step.active b { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+.fs-step.done { color: var(--ok); }
+.fs-step.done b { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+.fs-line { flex: 0 1 60px; height: 1.5px; background: var(--border-strong); }
+
+.flash-files { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 6px; }
+.flash-row {
+  display: grid; grid-template-columns: 130px minmax(0, 1fr) auto auto; gap: 10px; align-items: center;
+  padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2);
+}
+.flash-row input.addr { width: 100%; font-family: var(--mono); }
+.flash-row .fname { min-width: 0; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.flash-row .fname.no-file { color: var(--muted); }
+.flash-row .fname small { color: var(--muted); margin-left: 6px; }
+.flash-row .warn { display: block; color: var(--warn-ink); font-size: 12px; white-space: normal; }
+.flash-row.dragover { border-color: var(--accent); background: var(--accent-soft); }
+@media (max-width: 640px) {
+  .flash-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .flash-row .fname { grid-column: 1 / -1; order: -1; }
+}
+
+.progress { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.progress-bar { flex: 1; height: 10px; border-radius: 999px; background: var(--surface-3); overflow: hidden; }
+.progress-bar span { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 999px; transition: width .2s; }
+.progress.ok .progress-bar span { background: var(--ok); }
+.progress.fail .progress-bar span { background: var(--danger); }
+
+.flash-log { height: 260px; min-height: 180px; }
+.flash-log:empty::before { content: "ข้อความจาก esptool จะแสดงที่นี่"; }
+details.help.inner { margin: 12px 0 0; background: var(--surface-2); }
+details.help.inner summary { padding: 10px 14px; font-size: 13.5px; }
+details.help ul { margin: 6px 0; padding-left: 20px; }
+.steps-list { margin: 8px 0 14px; padding-left: 20px; font-size: 14px; color: var(--text-2); }
+.steps-list li { margin: 5px 0; }
+code { font-family: var(--mono); font-size: 12.5px; background: var(--surface-3); padding: 1px 5px; border-radius: 4px; }
+.flash-row .file-input { display: none; }
+.flash-row .fname { text-align: left; }
+.card-head { flex-wrap: wrap; }
+.card-head h2 { margin: 0; }
+.card-head label { flex-direction: row; align-items: center; gap: 8px; }

@@ -1,0 +1,80 @@
+      <section class="tool">
+        <h1>Resistor / LED Calculator</h1>
+        <p class="hint">อ่านค่าตัวต้านทานจากแถบสี (4 / 5 / 6 แถบ) หาแถบสีจากค่า หาค่ามาตรฐาน E12 / E24 / E96 คำนวณตัวต้านทานสำหรับ LED, voltage divider และกฎของโอห์ม</p>
+
+        <div class="card">
+          <div class="row between wrap">
+            <h2 style="margin:0">แถบสี &rarr; ค่า</h2>
+            <div class="seg" role="radiogroup" aria-label="จำนวนแถบ">
+              <label class="chk"><input type="radio" name="bands" value="4" checked> 4 แถบ</label>
+              <label class="chk"><input type="radio" name="bands" value="5"> 5 แถบ</label>
+              <label class="chk"><input type="radio" name="bands" value="6"> 6 แถบ</label>
+            </div>
+          </div>
+          <div class="res-draw" aria-hidden="true">
+            <svg viewBox="0 0 400 90" id="resSvg">
+              <line x1="0" y1="45" x2="400" y2="45" stroke="#9aa3ad" stroke-width="6" stroke-linecap="round"/>
+              <path d="M70 20 Q70 10 85 10 L120 10 Q130 10 135 18 L265 18 Q270 10 280 10 L315 10 Q330 10 330 20 L330 70 Q330 80 315 80 L280 80 Q270 80 265 72 L135 72 Q130 80 120 80 L85 80 Q70 80 70 70 Z" fill="#e8d3a8" stroke="#b89a66" stroke-width="2"/>
+              <g id="resBands"></g>
+            </svg>
+          </div>
+          <div class="band-selects" id="bandSelects"></div>
+          <div class="res-result" id="resResult"></div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <h2>ค่า &rarr; แถบสี / ค่ามาตรฐาน</h2>
+            <label class="field-label" for="revIn">ค่าความต้านทาน (เช่น 4.7k, 4k7, 220, 1M, 0R47)</label>
+            <input id="revIn" class="mono wide" value="4.7k" autocomplete="off">
+            <table class="tbl" id="revOut"></table>
+          </div>
+
+          <div class="card">
+            <h2>ตัวต้านทานสำหรับ LED</h2>
+            <div class="grid2">
+              <label>แรงดันไฟเลี้ยง (V) <input id="ledVs" type="number" step="0.1" value="5"></label>
+              <label>Vf ของ LED (V)
+                <select id="ledPreset">
+                  <option value="">เลือกสี...</option>
+                  <option value="1.8">แดง ~1.8-2.0 V</option>
+                  <option value="2.0">เหลือง / ส้ม ~2.0-2.2 V</option>
+                  <option value="2.2">เขียว (เดิม) ~2.0-2.2 V</option>
+                  <option value="3.0">เขียวสด / น้ำเงิน / ขาว ~2.8-3.3 V</option>
+                  <option value="1.3">อินฟราเรด ~1.2-1.5 V</option>
+                </select>
+              </label>
+              <label>Vf (V) <input id="ledVf" type="number" step="0.1" value="2.0"></label>
+              <label>กระแส (mA) <input id="ledI" type="number" step="1" value="10"></label>
+              <label>จำนวน LED ต่ออนุกรม <input id="ledN" type="number" min="1" max="50" value="1"></label>
+            </div>
+            <table class="tbl" id="ledOut"></table>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <h2>Voltage Divider</h2>
+            <div class="grid2">
+              <label>Vin (V) <input id="dvVin" type="number" step="0.1" value="5"></label>
+              <label>R1 (บน) <input id="dvR1" class="mono" value="10k"></label>
+              <label>R2 (ล่าง) <input id="dvR2" class="mono" value="20k"></label>
+              <label>Vout เป้าหมาย (หา R2) <input id="dvTarget" type="number" step="0.01" placeholder="เช่น 3.3"></label>
+            </div>
+            <table class="tbl" id="dvOut"></table>
+          </div>
+
+          <div class="card">
+            <h2>กฎของโอห์ม (กรอก 2 ค่า)</h2>
+            <div class="grid2">
+              <label>แรงดัน V (V) <input id="ohV" type="number" step="any"></label>
+              <label>กระแส I (mA) <input id="ohI" type="number" step="any"></label>
+              <label>ความต้านทาน R (Ω) <input id="ohR" class="mono" placeholder="เช่น 1k"></label>
+              <label>กำลัง P (W) <input id="ohP" type="number" step="any"></label>
+            </div>
+            <div class="row gap"><button class="btn primary" type="button" id="ohCalc">คำนวณ</button><button class="btn ghost" type="button" id="ohClear">ล้าง</button></div>
+            <table class="tbl" id="ohOut"></table>
+          </div>
+        </div>
+        <div class="notice err" id="resErr" hidden></div>
+      </section>

@@ -1,0 +1,19 @@
+      <section class="tool">
+        <h1>JSON Formatter / Validator</h1>
+        <p class="hint">จัดรูปแบบ ย่อ ตรวจสอบความถูกต้อง เรียงคีย์ และแปลง JSON เป็น escaped string</p>
+        <div class="card">
+          <div class="row gap wrap">
+            <button class="btn primary" id="jsonFormat" type="button">Format (2 spaces)</button>
+            <button class="btn" id="jsonFormat4" type="button">Format (4 spaces)</button>
+            <button class="btn" id="jsonMinify" type="button">Minify</button>
+            <button class="btn" id="jsonSortKeys" type="button">Sort keys</button>
+            <button class="btn" id="jsonEscape" type="button">&rarr; Escaped string</button>
+            <button class="btn" id="jsonUnescape" type="button">&larr; Unescape</button>
+            <button class="btn" type="button" data-copy="#jsonArea">คัดลอก</button>
+            <button class="btn ghost" type="button" data-clear="#jsonArea">ล้าง</button>
+          </div>
+          <textarea id="jsonArea" rows="20" spellcheck="false" class="mono" placeholder='{"hello": "world"}'></textarea>
+          <div class="row between"><span class="muted" id="jsonInfo"></span></div>
+        </div>
+        <div class="notice err" id="jsonErr" hidden></div>
+      </section>

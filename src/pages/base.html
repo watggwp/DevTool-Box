@@ -1,0 +1,14 @@
+      <section class="tool">
+        <h1>Number Base Converter</h1>
+        <p class="hint">แปลงเลขฐาน 2 / 8 / 10 / 16 พร้อมแสดงจำนวน bit ค่า signed และ ASCII (พิมพ์ช่องไหนก็ได้ ช่องอื่นอัปเดตอัตโนมัติ รองรับเลขขนาดใหญ่)</p>
+        <div class="card">
+          <div class="grid4">
+            <label>Decimal <input class="mono wide" id="nDec" data-base="10" placeholder="255"></label>
+            <label>Hex <input class="mono wide" id="nHex" data-base="16" placeholder="FF"></label>
+            <label>Binary <input class="mono wide" id="nBin" data-base="2" placeholder="11111111"></label>
+            <label>Octal <input class="mono wide" id="nOct" data-base="8" placeholder="377"></label>
+          </div>
+          <table class="tbl" id="nInfo"></table>
+        </div>
+        <div class="notice err" id="baseErr" hidden></div>
+      </section>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try { document.querySelector('meta[name="color-scheme"]').content = localStorage.getItem("color-scheme") ?? "light dark"; } catch (e) {}
+  </script>
+  <title>JSON | DevTools Box</title>
+  <meta name="description" content="จัดรูปแบบ ย่อ ตรวจสอบ และ escape JSON">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand">
+      <img src="/favicon.svg" width="26" height="26" alt="">
+      <span>DevTools Box</span>
+    </a>
+    <div class="topbar-right">
+      <span class="secure-badge" id="secureBadge" title="Web Serial ต้องใช้ HTTPS หรือ localhost"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">
+        <span class="when-light" aria-hidden="true">&#9790;</span><span class="when-dark" aria-hidden="true">&#9728;</span>
+        <span class="sr-only">สลับธีม</span>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar" aria-label="เครื่องมือ">
+      <a href="/" class=""><span class="ico">&#8962;</span>หน้าแรก</a>
+      <a href="/serial" class=""><span class="ico">⌁</span>Serial Monitor</a>
+      <a href="/base64" class=""><span class="ico">64</span>Base64</a>
+      <a href="/url" class=""><span class="ico">%</span>URL Encode</a>
+      <a href="/hex" class=""><span class="ico">0x</span>Hex / Text</a>
+      <a href="/json" class="active"><span class="ico">{}</span>JSON</a>
+      <a href="/jwt" class=""><span class="ico">JWT</span>JWT Decoder</a>
+      <a href="/hash" class=""><span class="ico">#</span>Hash / CRC</a>
+      <a href="/time" class=""><span class="ico">⏱</span>Timestamp</a>
+      <a href="/base" class=""><span class="ico">2/16</span>Number Base</a>
+      <a href="/uuid" class=""><span class="ico">ID</span>UUID / Random</a>
+    </nav>
+
+    <main class="content">
+      <section class="tool">
+        <h1>JSON Formatter / Validator</h1>
+        <p class="hint">จัดรูปแบบ ย่อ ตรวจสอบความถูกต้อง เรียงคีย์ และแปลง JSON เป็น escaped string</p>
+        <div class="card">
+          <div class="row gap wrap">
+            <button class="btn primary" id="jsonFormat" type="button">Format (2 spaces)</button>
+            <button class="btn" id="jsonFormat4" type="button">Format (4 spaces)</button>
+            <button class="btn" id="jsonMinify" type="button">Minify</button>
+            <button class="btn" id="jsonSortKeys" type="button">Sort keys</button>
+            <button class="btn" id="jsonEscape" type="button">&rarr; Escaped string</button>
+            <button class="btn" id="jsonUnescape" type="button">&larr; Unescape</button>
+            <button class="btn" type="button" data-copy="#jsonArea">คัดลอก</button>
+            <button class="btn ghost" type="button" data-clear="#jsonArea">ล้าง</button>
+          </div>
+          <textarea id="jsonArea" rows="20" spellcheck="false" class="mono" placeholder='{"hello": "world"}'></textarea>
+          <div class="row between"><span class="muted" id="jsonInfo"></span></div>
+        </div>
+        <div class="notice err" id="jsonErr" hidden></div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/js/common.js"></script>
+  <script type="module" src="/js/json.js"></script>
+</body>
+</html>

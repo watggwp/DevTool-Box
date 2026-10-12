@@ -1,0 +1,29 @@
+      <section class="tool">
+        <h1>Hex &harr; Text / Bytes</h1>
+        <p class="hint">แปลงข้อความเป็น hex bytes และกลับ พร้อม hex dump เหมาะกับการเตรียม payload ส่งทาง serial หรือ debug protocol</p>
+        <div class="card two-col">
+          <div>
+            <label for="hexText">ข้อความ (UTF-8)</label>
+            <textarea id="hexText" rows="8" spellcheck="false"></textarea>
+            <div class="row gap wrap">
+              <button class="btn primary" id="hexToHex" type="button">&rarr; HEX</button>
+              <label>คั่นด้วย <select id="hexSep"><option value="space">space</option><option value="none">none</option><option value="comma">, </option><option value="bsx">\x</option><option value="0x">0x </option></select></label>
+              <label class="chk"><input type="checkbox" id="hexUpper" checked> ตัวพิมพ์ใหญ่</label>
+            </div>
+          </div>
+          <div>
+            <label for="hexOut">HEX</label>
+            <textarea id="hexOut" rows="8" spellcheck="false" class="mono"></textarea>
+            <div class="row gap wrap">
+              <button class="btn primary" id="hexToText" type="button">&larr; Text</button>
+              <button class="btn" type="button" data-copy="#hexOut">คัดลอก</button>
+              <button class="btn ghost" type="button" data-clear="#hexText,#hexOut">ล้าง</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="row between"><strong>Hex dump</strong><span class="muted" id="hexCount"></span></div>
+          <pre class="dump mono" id="hexDump"></pre>
+        </div>
+        <div class="notice err" id="hexErr" hidden></div>
+      </section>

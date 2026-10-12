@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try { document.querySelector('meta[name="color-scheme"]').content = localStorage.getItem("color-scheme") ?? "light dark"; } catch (e) {}
+  </script>
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESC}}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand">
+      <img src="/favicon.svg" width="26" height="26" alt="">
+      <span>DevTools Box</span>
+    </a>
+    <div class="topbar-right">
+      <span class="secure-badge" id="secureBadge" title="Web Serial ต้องใช้ HTTPS หรือ localhost"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">
+        <span class="when-light" aria-hidden="true">&#9790;</span><span class="when-dark" aria-hidden="true">&#9728;</span>
+        <span class="sr-only">สลับธีม</span>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar" aria-label="เครื่องมือ">
+{{NAV}}
+    </nav>
+
+    <main class="content">
+{{BODY}}
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/js/common.js"></script>
+{{SCRIPT}}
+</body>
+</html>

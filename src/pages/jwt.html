@@ -1,0 +1,14 @@
+      <section class="tool">
+        <h1>JWT Decoder</h1>
+        <p class="hint">ถอด header และ payload ของ JSON Web Token แสดงเวลา iat / exp / nbf (ไม่ตรวจสอบลายเซ็น ข้อมูลไม่ถูกส่งออกจากเครื่อง)</p>
+        <div class="card">
+          <label for="jwtIn">Token</label>
+          <textarea id="jwtIn" rows="5" spellcheck="false" class="mono" placeholder="eyJhbGciOi..."></textarea>
+          <div class="row gap wrap"><button class="btn primary" id="jwtDecode" type="button">ถอดรหัส</button><button class="btn ghost" type="button" data-clear="#jwtIn">ล้าง</button></div>
+        </div>
+        <div class="two-col">
+          <div class="card"><strong>Header</strong><pre class="dump mono" id="jwtHeader"></pre></div>
+          <div class="card"><strong>Payload</strong><pre class="dump mono" id="jwtPayload"></pre><table class="tbl" id="jwtTimes"></table></div>
+        </div>
+        <div class="notice err" id="jwtErr" hidden></div>
+      </section>

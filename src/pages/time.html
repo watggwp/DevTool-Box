@@ -1,0 +1,27 @@
+      <section class="tool">
+        <h1>Unix Timestamp &harr; Date</h1>
+        <p class="hint">แปลง epoch (วินาที / มิลลิวินาที) เป็นวันที่และกลับ แสดงทั้งเวลาท้องถิ่น UTC และ ISO 8601</p>
+        <div class="card">
+          <div class="row gap wrap">
+            <strong>ตอนนี้:</strong><span class="mono" id="nowSec"></span><span class="muted">วินาที</span>
+            <span class="mono" id="nowMs"></span><span class="muted">ms</span>
+            <button class="btn" type="button" data-copy="#nowSec">คัดลอก</button>
+            <span class="muted" id="tzInfo"></span>
+          </div>
+        </div>
+        <div class="card two-col">
+          <div>
+            <label for="tsIn">Timestamp (s หรือ ms)</label>
+            <input id="tsIn" class="mono wide" placeholder="1700000000">
+            <button class="btn primary" id="tsToDate" type="button">&rarr; วันที่</button>
+            <table class="tbl" id="tsResult"></table>
+          </div>
+          <div>
+            <label for="dateIn">วันที่เวลา (local)</label>
+            <input id="dateIn" type="datetime-local" step="1" class="wide">
+            <button class="btn primary" id="dateToTs" type="button">&rarr; Timestamp</button>
+            <table class="tbl" id="dateResult"></table>
+          </div>
+        </div>
+        <div class="notice err" id="timeErr" hidden></div>
+      </section>

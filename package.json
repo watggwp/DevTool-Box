@@ -1,0 +1,19 @@
+{
+  "name": "devtools-web",
+  "version": "1.0.0",
+  "description": "Online developer toolbox: Web Serial monitor, Base64/URL/Hex codecs, JSON, JWT, hashes, timestamp, number base converter",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node server.js",
+    "dev": "node build.mjs && node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,30 @@
+      <section class="tool">
+        <h1>Hash / Checksum</h1>
+        <p class="hint">คำนวณ MD5, SHA-1, SHA-256, SHA-384, SHA-512, CRC32, CRC16 (Modbus) และ checksum แบบ XOR / SUM สำหรับข้อความหรือไฟล์ (ทำงานในเบราว์เซอร์ทั้งหมด)</p>
+        <div class="card">
+          <label for="hashIn">ข้อความ</label>
+          <textarea id="hashIn" rows="6" spellcheck="false"></textarea>
+          <div class="row gap wrap">
+            <label class="chk"><input type="checkbox" id="hashIsHex"> ข้อมูลเป็น HEX bytes</label>
+            <input type="file" id="hashFile" class="file-input">
+            <label for="hashFile" class="btn">เลือกไฟล์</label>
+            <span class="muted" id="hashFileName"></span>
+            <button class="btn ghost" type="button" data-clear="#hashIn">ล้าง</button>
+          </div>
+        </div>
+        <div class="card">
+          <table class="tbl" id="hashTbl">
+            <tr><th>MD5</th><td class="mono copyable" data-h="md5"></td></tr>
+            <tr><th>SHA-1</th><td class="mono copyable" data-h="SHA-1"></td></tr>
+            <tr><th>SHA-256</th><td class="mono copyable" data-h="SHA-256"></td></tr>
+            <tr><th>SHA-384</th><td class="mono copyable" data-h="SHA-384"></td></tr>
+            <tr><th>SHA-512</th><td class="mono copyable" data-h="SHA-512"></td></tr>
+            <tr><th>CRC32</th><td class="mono copyable" data-h="crc32"></td></tr>
+            <tr><th>CRC16 Modbus</th><td class="mono copyable" data-h="crc16"></td></tr>
+            <tr><th>XOR checksum</th><td class="mono copyable" data-h="xor"></td></tr>
+            <tr><th>SUM8 / 2's comp</th><td class="mono copyable" data-h="sum"></td></tr>
+          </table>
+          <p class="muted">คลิกค่าเพื่อคัดลอก</p>
+        </div>
+        <div class="notice err" id="hashErr" hidden></div>
+      </section>

@@ -1,0 +1,29 @@
+      <section class="tool">
+        <h1>URL Encode / Decode</h1>
+        <p class="hint">percent-encoding สำหรับ query string และ URL ทั้งแบบ component และทั้ง URI พร้อมแยก query parameters</p>
+        <div class="card two-col">
+          <div>
+            <label for="urlIn">ข้อความ / URL</label>
+            <textarea id="urlIn" rows="8" spellcheck="false"></textarea>
+            <div class="row gap wrap">
+              <button class="btn primary" id="urlEncComp" type="button">encodeURIComponent</button>
+              <button class="btn" id="urlEncFull" type="button">encodeURI (ทั้ง URL)</button>
+            </div>
+          </div>
+          <div>
+            <label for="urlOut">ผลลัพธ์</label>
+            <textarea id="urlOut" rows="8" spellcheck="false" class="mono"></textarea>
+            <div class="row gap wrap">
+              <button class="btn primary" id="urlDec" type="button">&larr; decode</button>
+              <button class="btn" type="button" data-copy="#urlOut">คัดลอก</button>
+              <button class="btn ghost" type="button" data-clear="#urlIn,#urlOut">ล้าง</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <label for="urlParse">แยกส่วนประกอบ URL และ Query parameters</label>
+          <input id="urlParse" class="mono wide" placeholder="https://example.com/path?a=1&amp;b=hello%20world#top">
+          <table class="tbl" id="urlParseTbl"></table>
+        </div>
+        <div class="notice err" id="urlErr" hidden></div>
+      </section>

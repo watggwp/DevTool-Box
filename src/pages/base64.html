@@ -1,0 +1,27 @@
+      <section class="tool">
+        <h1>Base64 Encode / Decode</h1>
+        <p class="hint">เข้ารหัสและถอดรหัส Base64 รองรับภาษาไทยและ UTF-8, URL-safe และไฟล์ไบนารี ทำงานในเบราว์เซอร์ทั้งหมด</p>
+        <div class="card two-col">
+          <div>
+            <div class="row between"><label for="b64In">ข้อความต้นฉบับ (Plain)</label><span class="muted" id="b64InLen">0 ตัวอักษร</span></div>
+            <textarea id="b64In" rows="12" spellcheck="false"></textarea>
+            <div class="row gap wrap">
+              <button class="btn primary" id="b64Encode" type="button">เข้ารหัส &rarr; Base64</button>
+              <label class="chk"><input type="checkbox" id="b64UrlSafe"> URL-safe (-_ ไม่มี =)</label>
+              <input type="file" id="b64File" class="file-input">
+              <label for="b64File" class="btn">เลือกไฟล์ &rarr; Base64</label>
+            </div>
+          </div>
+          <div>
+            <div class="row between"><label for="b64Out">Base64</label><span class="muted" id="b64OutLen">0 ตัวอักษร</span></div>
+            <textarea id="b64Out" rows="12" spellcheck="false" class="mono"></textarea>
+            <div class="row gap wrap">
+              <button class="btn primary" id="b64Decode" type="button">&larr; ถอดรหัส Base64</button>
+              <button class="btn" type="button" data-copy="#b64Out">คัดลอก</button>
+              <button class="btn" id="b64DownloadBin" type="button">ถอดรหัสเป็นไฟล์</button>
+              <button class="btn ghost" type="button" data-clear="#b64In,#b64Out">ล้าง</button>
+            </div>
+          </div>
+        </div>
+        <div class="notice err" id="b64Err" hidden></div>
+      </section>

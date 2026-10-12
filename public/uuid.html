@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try { document.querySelector('meta[name="color-scheme"]').content = localStorage.getItem("color-scheme") ?? "light dark"; } catch (e) {}
+  </script>
+  <title>UUID / Random | DevTools Box</title>
+  <meta name="description" content="สร้าง UUID v4 และ random bytes">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand">
+      <img src="/favicon.svg" width="26" height="26" alt="">
+      <span>DevTools Box</span>
+    </a>
+    <div class="topbar-right">
+      <span class="secure-badge" id="secureBadge" title="Web Serial ต้องใช้ HTTPS หรือ localhost"></span>
+      <button class="theme-toggle" id="themeToggle" type="button">
+        <span class="when-light" aria-hidden="true">&#9790;</span><span class="when-dark" aria-hidden="true">&#9728;</span>
+        <span class="sr-only">สลับธีม</span>
+      </button>
+      <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar" aria-label="เครื่องมือ">
+      <a href="/" class=""><span class="ico">&#8962;</span>หน้าแรก</a>
+      <a href="/serial" class=""><span class="ico">⌁</span>Serial Monitor</a>
+      <a href="/base64" class=""><span class="ico">64</span>Base64</a>
+      <a href="/url" class=""><span class="ico">%</span>URL Encode</a>
+      <a href="/hex" class=""><span class="ico">0x</span>Hex / Text</a>
+      <a href="/json" class=""><span class="ico">{}</span>JSON</a>
+      <a href="/jwt" class=""><span class="ico">JWT</span>JWT Decoder</a>
+      <a href="/hash" class=""><span class="ico">#</span>Hash / CRC</a>
+      <a href="/time" class=""><span class="ico">⏱</span>Timestamp</a>
+      <a href="/base" class=""><span class="ico">2/16</span>Number Base</a>
+      <a href="/uuid" class="active"><span class="ico">ID</span>UUID / Random</a>
+    </nav>
+
+    <main class="content">
+      <section class="tool">
+        <h1>UUID / Random</h1>
+        <p class="hint">สร้าง UUID v4, random bytes (HEX / Base64) และ password ที่ปลอดภัยด้วย crypto.getRandomValues</p>
+        <div class="card">
+          <div class="row gap wrap">
+            <label>จำนวน <input id="uuidCount" type="number" min="1" max="100" value="5" size="4"></label>
+            <button class="btn primary" id="uuidGen" type="button">สร้าง UUID v4</button>
+            <label class="chk"><input type="checkbox" id="uuidUpper"> ตัวพิมพ์ใหญ่</label>
+          </div>
+          <div class="row gap wrap">
+            <label>Random bytes <input id="randLen" type="number" min="1" max="1024" value="16" size="5"></label>
+            <button class="btn" id="randHex" type="button">HEX</button>
+            <button class="btn" id="randB64" type="button">Base64</button>
+            <label>Password length <input id="pwLen" type="number" min="4" max="128" value="20" size="4"></label>
+            <button class="btn" id="pwGen" type="button">Password</button>
+            <span class="spacer"></span>
+            <button class="btn" type="button" data-copy="#uuidOut">คัดลอก</button>
+            <button class="btn ghost" type="button" data-clear="#uuidOut">ล้าง</button>
+          </div>
+          <textarea id="uuidOut" rows="12" spellcheck="false" class="mono"></textarea>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/js/common.js"></script>
+  <script type="module" src="/js/uuid.js"></script>
+</body>
+</html>

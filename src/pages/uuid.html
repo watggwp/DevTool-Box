@@ -1,0 +1,22 @@
+      <section class="tool">
+        <h1>UUID / Random</h1>
+        <p class="hint">สร้าง UUID v4, random bytes (HEX / Base64) และ password ที่ปลอดภัยด้วย crypto.getRandomValues</p>
+        <div class="card">
+          <div class="row gap wrap">
+            <label>จำนวน <input id="uuidCount" type="number" min="1" max="100" value="5" size="4"></label>
+            <button class="btn primary" id="uuidGen" type="button">สร้าง UUID v4</button>
+            <label class="chk"><input type="checkbox" id="uuidUpper"> ตัวพิมพ์ใหญ่</label>
+          </div>
+          <div class="row gap wrap">
+            <label>Random bytes <input id="randLen" type="number" min="1" max="1024" value="16" size="5"></label>
+            <button class="btn" id="randHex" type="button">HEX</button>
+            <button class="btn" id="randB64" type="button">Base64</button>
+            <label>Password length <input id="pwLen" type="number" min="4" max="128" value="20" size="4"></label>
+            <button class="btn" id="pwGen" type="button">Password</button>
+            <span class="spacer"></span>
+            <button class="btn" type="button" data-copy="#uuidOut">คัดลอก</button>
+            <button class="btn ghost" type="button" data-clear="#uuidOut">ล้าง</button>
+          </div>
+          <textarea id="uuidOut" rows="12" spellcheck="false" class="mono"></textarea>
+        </div>
+      </section>

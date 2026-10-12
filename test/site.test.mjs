@@ -65,6 +65,22 @@ test("every local href / src / import in the built site resolves to a file", () 
   assert.deepEqual(missing, []);
 });
 
+test("Thai text is valid UTF-8, not mojibake from a wrong-encoding save", () => {
+  // Thai read as Windows-874 / Latin-1 and re-saved as UTF-8 shows up as e.g. "เน€เธ..." or "à¸...".
+  const bad = /[฀-๿][€‚“”‘’•–—]|à[¸¹]|�/;
+  const textFiles = [
+    ...walk(path.join(ROOT, "src")),
+    ...walk(DIST),
+    ...["README.md", "build.mjs", "server.js"].map((f) => path.join(ROOT, f)),
+  ].filter((f) => /\.(html|js|mjs|css|json|md|webmanifest)$/.test(f) && !f.includes("vendor"));
+  const hits = [];
+  for (const f of textFiles) {
+    const lines = readFileSync(f, "utf8").split("\n");
+    lines.forEach((l, i) => { if (bad.test(l)) hits.push(`${path.relative(ROOT, f)}:${i + 1}`); });
+  }
+  assert.deepEqual(hits, []);
+});
+
 test("no third-party scripts or styles are loaded", () => {
   for (const f of walk(DIST).filter((x) => x.endsWith(".html"))) {
     const html = readFileSync(f, "utf8");

@@ -1,12 +1,12 @@
 [
-  { "slug": "serial", "name": "Serial Monitor", "ico": "⌁", "desc": "ดูและส่งข้อมูลพอร์ตอนุกรม (Arduino / ESP32) ผ่าน Web Serial API" },
-  { "slug": "base64", "name": "Base64", "ico": "64", "desc": "เข้ารหัส / ถอดรหัส Base64 รองรับ UTF-8, URL-safe และไฟล์" },
-  { "slug": "url", "name": "URL Encode", "ico": "%", "desc": "percent-encoding และแยก query parameters" },
-  { "slug": "hex", "name": "Hex / Text", "ico": "0x", "desc": "แปลงข้อความเป็น hex bytes และ hex dump" },
-  { "slug": "json", "name": "JSON", "ico": "{}", "desc": "จัดรูปแบบ ย่อ ตรวจสอบ และ escape JSON" },
-  { "slug": "jwt", "name": "JWT Decoder", "ico": "JWT", "desc": "ถอด header / payload ของ JSON Web Token" },
-  { "slug": "hash", "name": "Hash / CRC", "ico": "#", "desc": "MD5, SHA, CRC32, CRC16 Modbus, XOR / SUM checksum" },
-  { "slug": "time", "name": "Timestamp", "ico": "⏱", "desc": "Unix epoch ↔ วันที่เวลา (local / UTC)" },
-  { "slug": "base", "name": "Number Base", "ico": "2/16", "desc": "แปลงเลขฐาน 2 / 8 / 10 / 16 พร้อม bit และ signed" },
-  { "slug": "uuid", "name": "UUID / Random", "ico": "ID", "desc": "สร้าง UUID v4 และ random bytes" }
+  { "slug": "serial", "name": "Serial Monitor", "ico": "⌁", "desc": "ดูและส่งข้อมูลพอร์ตอนุกรม (Arduino / ESP32) ผ่าน Web Serial API", "keywords": "com port uart arduino esp32 stm32 terminal monitor" },
+  { "slug": "base64", "name": "Base64", "ico": "64", "desc": "เข้ารหัส / ถอดรหัส Base64 รองรับ UTF-8, URL-safe และไฟล์", "keywords": "encode decode btoa atob" },
+  { "slug": "url", "name": "URL Encode", "ico": "%", "desc": "percent-encoding และแยก query parameters", "keywords": "encodeuricomponent decodeuricomponent query string" },
+  { "slug": "hex", "name": "Hex / Text", "ico": "0x", "desc": "แปลงข้อความเป็น hex bytes และ hex dump", "keywords": "hexadecimal bytes ascii dump" },
+  { "slug": "json", "name": "JSON", "ico": "{}", "desc": "จัดรูปแบบ ย่อ ตรวจสอบ และ escape JSON", "keywords": "format beautify minify validate pretty" },
+  { "slug": "jwt", "name": "JWT Decoder", "ico": "JWT", "desc": "ถอด header / payload ของ JSON Web Token", "keywords": "token bearer auth exp iat" },
+  { "slug": "hash", "name": "Hash / CRC", "ico": "#", "desc": "MD5, SHA, CRC32, CRC16 Modbus, XOR / SUM checksum", "keywords": "md5 sha1 sha256 sha512 crc checksum digest" },
+  { "slug": "time", "name": "Timestamp", "ico": "⏱", "desc": "Unix epoch ↔ วันที่เวลา (local / UTC)", "keywords": "unix epoch date time iso8601 convert" },
+  { "slug": "base", "name": "Number Base", "ico": "2/16", "desc": "แปลงเลขฐาน 2 / 8 / 10 / 16 พร้อม bit และ signed", "keywords": "binary octal decimal hexadecimal radix bits" },
+  { "slug": "uuid", "name": "UUID / Random", "ico": "ID", "desc": "สร้าง UUID v4, random bytes และ password", "keywords": "guid random token password generator" }
 ]

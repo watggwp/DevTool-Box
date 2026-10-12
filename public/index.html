@@ -10,17 +10,21 @@
   <title>DevTools Box</title>
   <meta name="description" content="เครื่องมือนักพัฒนาออนไลน์: Serial Monitor, Base64, URL, Hex, JSON, JWT, Hash, Timestamp, Number base, UUID">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header class="topbar">
     <a href="/" class="brand">
-      <img src="/favicon.svg" width="26" height="26" alt="">
+      <img src="/favicon.svg" width="28" height="28" alt="">
       <span>DevTools Box</span>
+      <span class="tag">beta</span>
     </a>
     <div class="topbar-right">
       <span class="secure-badge" id="secureBadge" title="Web Serial ต้องใช้ HTTPS หรือ localhost"></span>
-      <button class="theme-toggle" id="themeToggle" type="button">
+      <button class="theme-toggle" id="themeToggle" type="button" title="สลับธีมสว่าง/มืด">
         <span class="when-light" aria-hidden="true">&#9790;</span><span class="when-dark" aria-hidden="true">&#9728;</span>
         <span class="sr-only">สลับธีม</span>
       </button>
@@ -30,6 +34,7 @@
 
   <div class="layout">
     <nav class="sidebar" id="sidebar" aria-label="เครื่องมือ">
+      <div class="nav-title">เครื่องมือ</div>
       <a href="/" class="active"><span class="ico">&#8962;</span>หน้าแรก</a>
       <a href="/serial" class=""><span class="ico">⌁</span>Serial Monitor</a>
       <a href="/base64" class=""><span class="ico">64</span>Base64</a>
@@ -41,64 +46,83 @@
       <a href="/time" class=""><span class="ico">⏱</span>Timestamp</a>
       <a href="/base" class=""><span class="ico">2/16</span>Number Base</a>
       <a href="/uuid" class=""><span class="ico">ID</span>UUID / Random</a>
+      <div class="nav-foot">ทำงานในเบราว์เซอร์ทั้งหมด<br>ไม่ส่งข้อมูลขึ้นเซิร์ฟเวอร์</div>
     </nav>
 
     <main class="content">
       <section class="tool">
-        <h1>DevTools Box</h1>
-        <p class="hint">รวมเครื่องมือสำหรับนักพัฒนาและงาน embedded แต่ละเครื่องมือแยกเป็นหน้าของตัวเอง ทำงานในเบราว์เซอร์ทั้งหมด ไม่ส่งข้อมูลขึ้นเซิร์ฟเวอร์</p>
-        <div class="tool-grid">
-        <a class="tool-card" href="/serial">
+        <div class="hero">
+          <h1>DevTools Box</h1>
+          <p>รวมเครื่องมือสำหรับนักพัฒนาและงาน embedded แต่ละเครื่องมือแยกเป็นหน้าของตัวเอง ทำงานในเบราว์เซอร์ทั้งหมด ไม่ส่งข้อมูลขึ้นเซิร์ฟเวอร์</p>
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="toolSearch" type="search" placeholder="ค้นหาเครื่องมือ เช่น base64, serial, crc" autocomplete="off" aria-label="ค้นหาเครื่องมือ">
+            <kbd>/</kbd>
+          </div>
+        </div>
+        <div class="tool-grid" id="toolGrid">
+        <a class="tool-card" href="/serial" data-search="serial monitor ดูและส่งข้อมูลพอร์ตอนุกรม (arduino / esp32) ผ่าน web serial api com port uart arduino esp32 stm32 terminal monitor">
           <span class="ico">⌁</span>
           <strong>Serial Monitor</strong>
           <span class="muted">ดูและส่งข้อมูลพอร์ตอนุกรม (Arduino / ESP32) ผ่าน Web Serial API</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/base64">
+        <a class="tool-card" href="/base64" data-search="base64 เข้ารหัส / ถอดรหัส base64 รองรับ utf-8, url-safe และไฟล์ encode decode btoa atob">
           <span class="ico">64</span>
           <strong>Base64</strong>
           <span class="muted">เข้ารหัส / ถอดรหัส Base64 รองรับ UTF-8, URL-safe และไฟล์</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/url">
+        <a class="tool-card" href="/url" data-search="url encode percent-encoding และแยก query parameters encodeuricomponent decodeuricomponent query string">
           <span class="ico">%</span>
           <strong>URL Encode</strong>
           <span class="muted">percent-encoding และแยก query parameters</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/hex">
+        <a class="tool-card" href="/hex" data-search="hex / text แปลงข้อความเป็น hex bytes และ hex dump hexadecimal bytes ascii dump">
           <span class="ico">0x</span>
           <strong>Hex / Text</strong>
           <span class="muted">แปลงข้อความเป็น hex bytes และ hex dump</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/json">
+        <a class="tool-card" href="/json" data-search="json จัดรูปแบบ ย่อ ตรวจสอบ และ escape json format beautify minify validate pretty">
           <span class="ico">{}</span>
           <strong>JSON</strong>
           <span class="muted">จัดรูปแบบ ย่อ ตรวจสอบ และ escape JSON</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/jwt">
+        <a class="tool-card" href="/jwt" data-search="jwt decoder ถอด header / payload ของ json web token token bearer auth exp iat">
           <span class="ico">JWT</span>
           <strong>JWT Decoder</strong>
           <span class="muted">ถอด header / payload ของ JSON Web Token</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/hash">
+        <a class="tool-card" href="/hash" data-search="hash / crc md5, sha, crc32, crc16 modbus, xor / sum checksum md5 sha1 sha256 sha512 crc checksum digest">
           <span class="ico">#</span>
           <strong>Hash / CRC</strong>
           <span class="muted">MD5, SHA, CRC32, CRC16 Modbus, XOR / SUM checksum</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/time">
+        <a class="tool-card" href="/time" data-search="timestamp unix epoch ↔ วันที่เวลา (local / utc) unix epoch date time iso8601 convert">
           <span class="ico">⏱</span>
           <strong>Timestamp</strong>
           <span class="muted">Unix epoch ↔ วันที่เวลา (local / UTC)</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/base">
+        <a class="tool-card" href="/base" data-search="number base แปลงเลขฐาน 2 / 8 / 10 / 16 พร้อม bit และ signed binary octal decimal hexadecimal radix bits">
           <span class="ico">2/16</span>
           <strong>Number Base</strong>
           <span class="muted">แปลงเลขฐาน 2 / 8 / 10 / 16 พร้อม bit และ signed</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
-        <a class="tool-card" href="/uuid">
+        <a class="tool-card" href="/uuid" data-search="uuid / random สร้าง uuid v4, random bytes และ password guid random token password generator">
           <span class="ico">ID</span>
           <strong>UUID / Random</strong>
-          <span class="muted">สร้าง UUID v4 และ random bytes</span>
+          <span class="muted">สร้าง UUID v4, random bytes และ password</span>
+          <span class="go">เปิดเครื่องมือ &rarr;</span>
         </a>
         </div>
+        <p class="empty" id="toolEmpty" hidden>ไม่พบเครื่องมือที่ตรงกับคำค้น</p>
       </section>
     </main>
   </div>

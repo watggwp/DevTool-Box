@@ -1,4 +1,4 @@
-// Shared behaviour for every page: theme toggle, mobile menu, copy/clear buttons, toast, helpers.
+// Shared behaviour for every page: theme toggle, mobile menu, copy/clear buttons, toast, helpers, home search.
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -136,7 +136,9 @@ function initButtons() {
     const copyBtn = e.target.closest("[data-copy]");
     if (copyBtn) {
       const el = $(copyBtn.dataset.copy);
-      if (el) copyText("value" in el ? el.value : el.textContent);
+      const text = el ? ("value" in el ? el.value : el.textContent) : "";
+      if (!text) { toast("ไม่มีข้อมูลให้คัดลอก"); return; }
+      copyText(text);
       return;
     }
     const clearBtn = e.target.closest("[data-clear]");
@@ -158,11 +160,37 @@ function initButtons() {
 function initSecureBadge() {
   const b = $("#secureBadge");
   if (!b) return;
-  if (window.isSecureContext) { b.textContent = "HTTPS / secure"; b.classList.add("ok"); }
+  if (window.isSecureContext) { b.textContent = "secure"; b.classList.add("ok"); }
   else { b.textContent = "not secure"; }
+}
+
+// ---------- home page search ----------
+function initSearch() {
+  const box = $("#toolSearch");
+  if (!box) return;
+  const cards = $$("#toolGrid .tool-card");
+  const empty = $("#toolEmpty");
+  const apply = () => {
+    const q = box.value.trim().toLowerCase();
+    let shown = 0;
+    for (const c of cards) {
+      const hit = !q || c.dataset.search.includes(q);
+      c.hidden = !hit;
+      if (hit) shown++;
+    }
+    empty.hidden = shown > 0;
+  };
+  box.addEventListener("input", apply);
+  box.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { const first = cards.find((c) => !c.hidden); if (first) location.href = first.href; }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && !/input|textarea|select/i.test(e.target.tagName)) { e.preventDefault(); box.focus(); box.select(); }
+  });
 }
 
 initTheme();
 initMenu();
 initButtons();
 initSecureBadge();
+initSearch();

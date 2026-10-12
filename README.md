@@ -34,7 +34,15 @@ public/js/         common.js (ใช้ร่วม) + <tool>.js แยกขอ
 public/style.css   สไตล์ รองรับ light/dark อัตโนมัติ
 ```
 
-เพิ่มเครื่องมือใหม่: เพิ่มรายการใน `src/tools.json`, สร้าง `src/pages/<slug>.html` และ `public/js/<slug>.js` แล้ว `npm run build`
+## เพิ่มเครื่องมือใหม่ (ตัวอย่าง: เครื่องมือ "Text Diff" ที่ URL `/diff`)
+
+1. เพิ่มรายการใน `src/tools.json` (ชื่อในเมนู, ไอคอนสั้น, คำอธิบาย, คำค้น)
+   ```json
+   { "slug": "diff", "name": "Text Diff", "ico": "+-", "desc": "เปรียบเทียบข้อความสองชุด", "keywords": "compare diff" }
+   ```
+2. สร้าง `src/pages/diff.html` ใส่เฉพาะเนื้อหาส่วนกลางของหน้า (เริ่มด้วย `<section class="tool"><h1>...</h1><p class="hint">...</p>` แล้วตามด้วย `.card` ต่าง ๆ) ไม่ต้องใส่ header/sidebar เพราะ `src/layout.html` ใส่ให้
+3. สร้าง `public/js/diff.js` เป็น ES module เขียน logic ของหน้านั้น (import helper จาก `/js/common.js` ได้ เช่น `$`, `toast`, `copyText`)
+4. รัน `npm run build` สคริปต์จะประกอบเป็น `public/diff.html` และใส่ลิงก์ในเมนูด้านซ้ายกับการ์ดหน้าแรกให้อัตโนมัติ (บน Render ขั้นตอนนี้รันเองตอน build)
 
 ## Deploy บน Render
 
@@ -50,4 +58,4 @@ public/style.css   สไตล์ รองรับ light/dark อัตโน
 
 - รองรับ Chrome, Edge, Opera (desktop และ Android) ไม่รองรับ Firefox / Safari
 - ต้องเปิดผ่าน HTTPS หรือ `localhost`
-- บน Windows ต้องติดตั้ง driver ของชิป USB-serial (CP210x, CH340, FTDI) ก่อน
+- บน Windows ต้องติดตั้ง driver ของชิป USB-serial (CP210x, CH340, FTDI) ก่อน เบราว์เซอร์ตรวจสอบ/ติดตั้ง driver ให้ไม่ได้ ถ้าไม่มี driver พอร์ตจะไม่ปรากฏในหน้าต่างเลือกพอร์ต หน้า `/serial` มีแผง "ไม่เห็นพอร์ต COM?" พร้อมลิงก์ดาวน์โหลด driver จากผู้ผลิต และจะเปิดแผงนี้ให้อัตโนมัติเมื่อผู้ใช้ปิดหน้าต่างเลือกพอร์ตโดยไม่ได้เลือก

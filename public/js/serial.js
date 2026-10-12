@@ -1,9 +1,10 @@
 // Serial Monitor using the Web Serial API (Chrome / Edge / Opera, secure context required).
-import { $, toast, download, enc, dec, bytesToHex, hexToBytes, fmtBytes } from "/js/common.js";
+import { $, $$, toast, download, enc, dec, bytesToHex, hexToBytes, fmtBytes } from "/js/common.js";
 
 const term = $("#terminal");
 const statusEl = $("#serialStatus");
 const statsEl = $("#serialStats");
+const portInfoEl = $("#serialPortInfo");
 const connectBtn = $("#serialConnect");
 const disconnectBtn = $("#serialDisconnect");
 const input = $("#serialInput");
@@ -15,6 +16,9 @@ let lineBuf = "";
 const history = [];
 let histIdx = -1;
 const MAX_LINES = 5000;
+
+// Known USB vendor IDs for USB-to-serial bridges (used only for a friendly label).
+const VENDORS = { 0x10c4: "Silicon Labs CP210x", 0x1a86: "WCH CH34x", 0x0403: "FTDI", 0x2341: "Arduino", 0x303a: "Espressif", 0x2e8a: "Raspberry Pi", 0x0483: "STMicro" };
 
 if (!("serial" in navigator)) {
   $("#serialUnsupported").hidden = false;
@@ -39,17 +43,20 @@ function appendLine(html) {
   if ($("#optAutoscroll").checked) term.scrollTop = term.scrollHeight;
 }
 
-function sys(msg) { appendLine(`${ts()}<span class="sys">${escapeHtml(msg)}</span>`); }
+function sys(msg, cls = "sys") { appendLine(`${ts()}<span class="${cls}">${escapeHtml(msg)}</span>`); }
 
 function updateStats() { statsEl.textContent = `RX ${fmtBytes(rxBytes)} / TX ${fmtBytes(txBytes)}`; }
 
-function setConnected(on) {
+function setConnected(on, label = "") {
   connectBtn.disabled = on;
   disconnectBtn.disabled = !on;
   input.disabled = !on;
   sendBtn.disabled = !on;
   statusEl.textContent = on ? "เชื่อมต่อแล้ว" : "ยังไม่ได้เชื่อมต่อ";
   statusEl.classList.toggle("on", on);
+  portInfoEl.hidden = !on;
+  portInfoEl.textContent = label;
+  $("#termTitle").textContent = on ? label : "serial monitor";
   if (on) input.focus();
 }
 
@@ -86,7 +93,7 @@ async function readLoop() {
         if (value) renderChunk(value);
       }
     } catch (e) {
-      sys("read error: " + e.message);
+      sys("read error: " + e.message, "err");
     } finally {
       reader.releaseLock();
       reader = null;
@@ -94,29 +101,50 @@ async function readLoop() {
   }
 }
 
+function describePort(p) {
+  const info = p.getInfo();
+  if (!info.usbVendorId) return "serial port";
+  const vid = info.usbVendorId.toString(16).padStart(4, "0").toUpperCase();
+  const pid = (info.usbProductId ?? 0).toString(16).padStart(4, "0").toUpperCase();
+  const name = VENDORS[info.usbVendorId];
+  return `${name ? name + " " : ""}VID:${vid} PID:${pid}`;
+}
+
 async function connect() {
+  $("#serialNoPort").hidden = true;
+  let chosen;
   try {
-    port = await navigator.serial.requestPort();
-    const opts = {
-      baudRate: Number($("#baud").value) || 115200,
-      dataBits: Number($("#dataBits").value),
-      parity: $("#parity").value,
-      stopBits: Number($("#stopBits").value),
-      flowControl: $("#flow").value,
-    };
-    await port.open(opts);
-    await port.setSignals({ dataTerminalReady: $("#optDTR").checked, requestToSend: $("#optRTS").checked }).catch(() => {});
-    const info = port.getInfo();
-    const id = info.usbVendorId ? ` (VID ${info.usbVendorId.toString(16).padStart(4, "0")} PID ${info.usbProductId.toString(16).padStart(4, "0")})` : "";
-    sys(`connected @ ${opts.baudRate} ${opts.dataBits}${opts.parity[0].toUpperCase()}${opts.stopBits}${id}`);
-    keepReading = true;
-    setConnected(true);
-    readLoop();
-    port.addEventListener("disconnect", () => { sys("device disconnected"); cleanup(); });
+    chosen = await navigator.serial.requestPort();
   } catch (e) {
-    if (e.name !== "NotFoundError") sys("connect failed: " + e.message);
-    port = null;
+    // NotFoundError = user closed the picker (often because no port was listed) -> show driver help
+    $("#serialNoPort").hidden = false;
+    $("#serialHelp").open = true;
+    return;
   }
+  const opts = {
+    baudRate: Number($("#baud").value) || 115200,
+    dataBits: Number($("#dataBits").value),
+    parity: $("#parity").value,
+    stopBits: Number($("#stopBits").value),
+    flowControl: $("#flow").value,
+  };
+  try {
+    port = chosen;
+    await port.open(opts);
+  } catch (e) {
+    port = null;
+    sys(`เปิดพอร์ตไม่ได้: ${e.message}`, "err");
+    sys("พอร์ตอาจถูกโปรแกรมอื่นใช้อยู่ (Arduino IDE, PuTTY) หรือ baud rate ไม่รองรับ ดูแผงช่วยเหลือด้านล่าง", "sys");
+    $("#serialHelp").open = true;
+    return;
+  }
+  await port.setSignals({ dataTerminalReady: $("#optDTR").checked, requestToSend: $("#optRTS").checked }).catch(() => {});
+  const label = describePort(port);
+  sys(`connected ${label} @ ${opts.baudRate} ${opts.dataBits}${opts.parity[0].toUpperCase()}${opts.stopBits}`);
+  keepReading = true;
+  setConnected(true, `${label} @ ${opts.baudRate}`);
+  readLoop();
+  port.addEventListener("disconnect", () => { sys("อุปกรณ์ถูกถอดออก", "err"); cleanup(); });
 }
 
 async function cleanup() {
@@ -133,11 +161,12 @@ async function disconnect() {
   sys("disconnected");
 }
 
-async function send(text) {
-  if (!port || !port.writable) return;
+async function send(text, forceHex = null) {
+  if (!port || !port.writable) { toast("ยังไม่ได้เชื่อมต่อ"); return; }
+  const asHex = forceHex ?? $("#sendHex").checked;
   let bytes;
-  if ($("#sendHex").checked) {
-    try { bytes = hexToBytes(text); } catch (e) { sys(e.message); return; }
+  if (asHex) {
+    try { bytes = hexToBytes(text); } catch (e) { sys(e.message, "err"); return; }
   } else {
     const le = { lf: "\n", cr: "\r", crlf: "\r\n", "": "" }[$("#lineEnding").value];
     bytes = enc.encode(text + le);
@@ -149,10 +178,10 @@ async function send(text) {
     writer = null;
     txBytes += bytes.length;
     updateStats();
-    const shown = $("#sendHex").checked ? bytesToHex(bytes) : text;
+    const shown = asHex ? bytesToHex(bytes) : text;
     appendLine(`${ts()}<span class="tx">&gt; ${escapeHtml(shown)}</span>`);
   } catch (e) {
-    sys("write error: " + e.message);
+    sys("write error: " + e.message, "err");
   }
 }
 
@@ -174,15 +203,34 @@ input.addEventListener("keydown", (e) => {
   else if (e.key === "ArrowDown") { e.preventDefault(); if (histIdx > 0) { histIdx--; input.value = history[histIdx]; } else { histIdx = -1; input.value = ""; } }
 });
 
+// quick-send buttons
+$$("#quickSend [data-send]").forEach((b) => {
+  b.addEventListener("click", () => {
+    if (b.dataset.hex) send(b.dataset.hex, true); else send(b.dataset.send, false);
+  });
+});
+
 $("#optDTR").addEventListener("change", (e) => port?.setSignals({ dataTerminalReady: e.target.checked }).catch(() => {}));
 $("#optRTS").addEventListener("change", (e) => port?.setSignals({ requestToSend: e.target.checked }).catch(() => {}));
 
-$("#serialClear").addEventListener("click", () => { term.innerHTML = ""; rxBytes = txBytes = 0; updateStats(); });
+function clearTerm() { term.innerHTML = ""; rxBytes = txBytes = 0; updateStats(); }
+$("#serialClear").addEventListener("click", clearTerm);
 $("#serialSave").addEventListener("click", () => {
   const text = [...term.children].map((l) => l.textContent).join("\n");
   if (!text) { toast("ไม่มีข้อมูล"); return; }
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");
   download(`serial-log-${stamp}.txt`, text, "text/plain");
+  toast("บันทึก log แล้ว");
 });
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key.toLowerCase() === "l") { e.preventDefault(); clearTerm(); }
+});
+
+// Reconnect hint: ports the user already granted show up here without a picker
+if ("serial" in navigator) {
+  navigator.serial.getPorts().then((ports) => {
+    if (ports.length) sys(`พบพอร์ตที่เคยอนุญาตแล้ว ${ports.length} พอร์ต กด "เชื่อมต่อ" เพื่อเลือก`);
+  }).catch(() => {});
+}
 
 addEventListener("beforeunload", () => { if (port) cleanup(); });
